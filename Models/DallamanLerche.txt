@@ -1,0 +1,132 @@
+********** MODEL NAME
+DallamanLerche
+
+********** MODEL NOTES
+********** MODEL STATES
+d/dt(Gp) = EGP+Ra-E-U_ii-k_1*Gp+k_2*Gt
+d/dt(Gt) = (-U_id)+k_1*Gp-k_2*Gt
+d/dt(Il) = (-m_1*Il)-m_3*Il+m_2*Ip+S
+d/dt(Ip) = (-m_2*Ip)-m_4*Ip+m_1*Il
+d/dt(Qsto1) = -k_gri*Qsto1 + mealintake
+d/dt(Qsto2) = (-k_empt*Qsto2)+k_gri*Qsto1 + ogtt
+d/dt(Qgut) = (-k_abs*Qgut)+k_empt*Qsto2
+d/dt(I1) = -k_i*(I1-I)
+d/dt(Id) = -k_i*(Id-I1)
+d/dt(INS) = (-p_2U*INS)+p_2U*(I-I_b)
+d/dt(Ipo) = (-gamma*Ipo)+S_po
+d/dt(Y) = -alpha*(Y-beta*(G-G_b))
+
+d/dt(D) = 0
+d/dt(meal_on) = 0
+d/dt(ogtt_on) = 0
+d/dt(BW) = 0
+
+
+Gp(0) = 168
+Gt(0) = 130
+Il(0) = 4.5
+Ip(0) = 1.25
+Qsto1(0) = 1e-100
+Qsto2(0) = 0
+Qgut(0) = 0
+I1(0) = 0
+Id(0) = 0
+INS(0) = 0
+Ipo(0) = 3.6
+Y(0) = 0
+
+D(0) = 0
+meal_on(0) = 0
+ogtt_on(0) = 0
+BW(0) = 80
+
+% 1.8
+********** MODEL PARAMETERS
+V_G = 1.88
+k_1 = 0.065
+k_2 = 0.079
+G_b = 95
+V_I = 0.05
+m_1 = 0.19
+m_2 = 0.484
+m_4 = 0.194
+m_5 = 0.0304
+m_6 = 0.6471
+HE_b = 0.60
+I_b = 25
+S_b = 1.8
+k_max = 0.0558
+k_min = 0.008
+k_abs = 0.057
+k_gri = 0.0558
+f = 0.9
+b = 0.82
+d = 0.01
+k_p1 = 2.7
+k_p2 = 0.0021
+k_p3 = 0.0090
+k_p4 = 0.0618
+k_i = 0.0079
+U_ii = 1
+V_m0 = 2.5
+V_mX = 0.047
+K_m0 = 225.59
+V_f0 = 2.5
+V_fX = 0.047
+K_f0 = 225.59
+p_2U = 0.0331
+part = 0.2
+K = 2.30
+alpha = 0.05
+beta = 0.11
+gamma = 0.5
+k_e1 = 0.0005
+k_e2 = 339
+meal_start = 0
+meal_length = 60
+meal_amount = 75000
+********** MODEL VARIABLES
+%BW = 73
+%D = 0
+
+********** MODEL REACTIONS
+aa = 5/2/(1-b)/D
+cc = 5/2/d/D
+EGP = k_p1-k_p2*Gp-k_p3*Id-k_p4*Ipo
+V_mmax = (1-part)*(V_m0+V_mX*INS)
+V_fmax = part*(V_f0+V_fX*INS)
+E = 0
+S = gamma*Ipo
+I = Ip/V_I
+G = Gp/V_G
+HE = (-m_5*S)+m_6
+m_3 = HE*m_1/(1-HE)
+Q_sto = Qsto1+Qsto2
+Ra = f * k_abs * Qgut/BW
+k_empt = k_min+(k_max-k_min)/2*(tanh(aa*(Q_sto-b*D))-tanh(cc*(Q_sto-d*D))+2)
+U_idm = V_mmax*Gt/(K_m0+Gt)
+U_idf = V_fmax*Gt/(K_f0+Gt)
+U_id = U_idm + U_idf
+U = U_ii+U_id
+S_po = Y+K*(EGP+Ra-E-U_ii-k_1*Gp+k_2*Gt)/V_G+S_b
+plasmaGlucose = G
+plasmaInsulin = I
+endogenousGlucoseProduction = EGP
+glucoseRateOfAppearance = Ra
+glucoseUptake = U
+insulinSecretion = S
+
+mealintake = (meal_amount/meal_length)*meal_on
+ogtt = (meal_amount/meal_length)*ogtt_on
+
+********** MODEL FUNCTIONS
+********** MODEL EVENTS
+
+food_1=gt(time,1000), D, 7500
+
+prep_food_1=gt(time,10080),meal_length, 15, meal_amount, 75000
+mealon=gt(time,10080),meal_on,1
+mealoff=gt(time,10080 + meal_length),meal_on,0
+
+
+********** MODEL MATLAB FUNCTIONS

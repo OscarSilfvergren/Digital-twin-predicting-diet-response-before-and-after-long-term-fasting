@@ -1,0 +1,373 @@
+********** MODEL NAME
+ModelSimpleMetabolismSteadyState
+
+********** MODEL NOTES
+********** MODEL STATES
+d/dt(Qsto1)           = (Carbohydrate_Solid)                 - (Qsto1ToQsto2)
+d/dt(Qsto2)           = (Carbohydrate_Liquid + Qsto1ToQsto2) - (Qsto2ToQgut)
+d/dt(Qgut)            = (Qsto2ToQgut)                        - (Qgut_out)
+
+d/dt(Intestines_Protein) = (Meal_Protein/BW)                 - (ProteinDigestion)
+d/dt(Intestines_aa)      = (ProteinDigestion)                - (aaTransportation)
+
+d/dt(Gp) = (Ra + GtToGp)        - (U_ii + GpToGt)
+d/dt(Gt) = (GpToGt + EGP)       - (U_id + GtToGp + U_il)
+
+d/dt(Gl)          = (U_il + Glycogenolysis + Gluconeogenesis)                    - (EGP_Liver + Glycogenesis + Glycolysis)
+d/dt(Gly_L)       = (Glycogenesis)                                               - (Glycogenolysis)
+d/dt(Pyruvate_L)  = (aaIntoPyruvate_Meal + Glycolysis + PyruvateTranslocase)     - ( PyruvateOxi_L)
+d/dt(CrebCycle_L) = (aaIntoCrebCyle_Meal + PyruvateOxi_L)                        - (Gluconeogenesis + CrebUsage)
+
+d/dt(InsulinStabilization)             = InsulinStabilizationDelay
+d/dt(It)                               = InsulinToTissueDelay
+
+d/dt(Ipo) = (S_po)              - (S)
+d/dt(Il)  = (S + IpToIl)        - (IlToIp + InsulinDegradation_Liver)
+d/dt(Ip)  = (IlToIp)            - (IpToIl + InsulinDegradation_Blood)
+
+d/dt(meal_on)         = 0
+d/dt(ogtt_on)         = 0
+d/dt(BW)              = 0
+Qsto2(0)              = 0
+Qgut(0)               = 0
+Ipo(0)                = 0
+meal_on(0)            = 0
+ogtt_on(0)            = 0
+Intestines_Protein(0) = 1e-50
+Intestines_aa(0)      = 0
+Qsto1(0)              = 1e-50
+
+BW(0)         = BW_start
+Gly_L(0)      = 1500
+Gl(0)         = 200
+Gp(0)         = 80
+Gt(0)         = 50
+Il(0)         = 1
+Ip(0)         = 1
+Pyruvate_L(0) = 50
+CrebCycle_L(0)= 50
+
+InsulinStabilization(0) = 0
+It(0)                   = 0
+
+********** MODEL PARAMETERS
+k_gri = 0.0558
+k_min = 0.008 
+k_max = 0.0558
+b = 0.82
+d = 0.01
+k_abs = 0.057
+ProteinBreakdown = 1
+aaTransportation_k = 1
+
+f = 0.9
+k_1 = 0.065
+U_ii = 1
+m_2 = 0.484
+m_4 = 0.194
+K = 2.30
+S_b1 = 1.8
+S_b2 = 1.8
+S_b3 = 1.8
+S_b4 = 1.8
+gamma = 0.5
+
+K_m0 = 225.59  
+V_m0 = 2.5
+V_mX = 0.047 
+K_f0 = 225.59
+V_f0 = 2.5 
+V_fX = 0.047
+GLUT2_diffusionMax = 0.01
+GLUT2_diffusion0   = 30
+Uidl_diffusionMax  = 0.01
+Uidl_diffusion0   = 30
+EGP_KidneysK       = 0.01
+k_2        = 0.079
+It_delay_k = 0.0331
+G_b1       = 25 
+G_b2       = 25 
+G_b3       = 25 
+G_b4       = 25 
+
+V_glyBmax = 0.01
+GlyB = 0.01
+V_glySmax = 0.01
+GlyS = 0.01
+
+CrebUsage_K = 1
+Gluconeogenesis_CrebK     = 0.1
+PyruvateTranslocase_K       = 1
+PyruvateOxi_k             = 1
+Aminoprofile_k            = 0.75
+Glycolysis_k              = 280
+GlycolysisEXP             = 1
+InsDepEXP                 = 1
+
+m_1 = 0.19
+m_5 = 0.0304
+m_6 = 0.6471
+alpha = 0.05
+beta = 0.11 
+InsulinLiverResponseK       = 95
+DifferentInsulinTolerance_1   = 1 
+DifferentInsulinTolerance_2   = 1
+DifferentInsulinTolerance_3   = 1
+DifferentInsulinTolerance_4   = 1
+DifferentInsulinResponse_1    = 1
+DifferentInsulinResponse_2    = 1
+DifferentInsulinResponse_3    = 1
+DifferentInsulinResponse_4    = 1
+DifferentInsulinDegradation_1 = 1
+DifferentInsulinDegradation_2 = 1
+DifferentInsulinDegradation_3 = 1
+DifferentInsulinDegradation_4 = 1
+
+GlyDep_Meal = 0.2
+GlyDep_TCA = 0.2
+GlyDep_Glugoneogenesis = 0.2
+GlyDep_KidneysEGP = 0.2
+GlyDepEXP_Meal = 0.2
+GlyDepEXP_TCA = 0.2
+GlyDepEXP_Glugoneogenesis = 0.2
+GlyDepEXP_KidneysEGP = 0.2
+
+BloodVolumeUncertainty = 1
+BloodLiverUncerteinty  = 1
+meal_length1    = 1
+meal_start1     = 1
+carb_amount1    = 1
+protein_amount1 = 1
+
+BloodVolumeUncertainty2 = 1
+BloodLiverUncerteinty2  = 1
+meal_length1_2    = 1
+meal_start1_2     = 1
+carb_amount1_2    = 1
+protein_amount1_2 = 1
+
+BloodVolumeUncertainty3 = 1
+BloodLiverUncerteinty3  = 1
+meal_length1_3    = 1
+meal_start1_3     = 1
+carb_amount1_3    = 1
+protein_amount1_3 = 1
+
+BloodVolumeUncertainty4 = 1
+BloodLiverUncerteinty4  = 1
+meal_length1_4    = 1
+meal_start1_4     = 1
+carb_amount1_4    = 1
+protein_amount1_4 = 1
+
+meal_solid1     = 1
+meal_liquid1    = 1
+meal_boolean1   = 1
+
+female_boolean = 0
+male_boolean   = 1
+Height         = 180
+BW_start       = 80
+
+CountMeal1_1    = 1
+CountMeal1_2    = 1
+CountMeal1_3    = 1
+CountMeal1_4    = 1
+  
+meal_length2    = 1
+meal_start2     = 1
+carb_amount2    = 1
+protein_amount2 = 1
+meal_solid2     = 1
+meal_liquid2    = 1
+meal_boolean2   = 1
+D               = 0
+  
+********** MODEL VARIABLES
+VolumeBloodPeripheral_1 = ((0.3669*(Height/100)^3 + 0.03219*BW + 0.6041)*male_boolean + (0.3561*(Height/100)^3 + 0.03308*BW + 0.1833)*female_boolean)*BloodVolumeUncertainty*CountMeal1_1
+VolumeBloodPeripheral_2 = ((0.3669*(Height/100)^3 + 0.03219*BW + 0.6041)*male_boolean + (0.3561*(Height/100)^3 + 0.03308*BW + 0.1833)*female_boolean)*BloodVolumeUncertainty2*CountMeal1_2
+VolumeBloodPeripheral_3 = ((0.3669*(Height/100)^3 + 0.03219*BW + 0.6041)*male_boolean + (0.3561*(Height/100)^3 + 0.03308*BW + 0.1833)*female_boolean)*BloodVolumeUncertainty3*CountMeal1_3
+VolumeBloodPeripheral_4 = ((0.3669*(Height/100)^3 + 0.03219*BW + 0.6041)*male_boolean + (0.3561*(Height/100)^3 + 0.03308*BW + 0.1833)*female_boolean)*BloodVolumeUncertainty4*CountMeal1_4
+VolumeBloodPeripheral   =  VolumeBloodPeripheral_1 + VolumeBloodPeripheral_2 + VolumeBloodPeripheral_3 + VolumeBloodPeripheral_4
+
+VolumeBloodLiver_1   = VolumeBloodPeripheral_1*0.13*BloodLiverUncerteinty*CountMeal1_1
+VolumeBloodLiver_2   = VolumeBloodPeripheral_2*0.13*BloodLiverUncerteinty2*CountMeal1_2
+VolumeBloodLiver_3   = VolumeBloodPeripheral_3*0.13*BloodLiverUncerteinty3*CountMeal1_3
+VolumeBloodLiver_4   = VolumeBloodPeripheral_4*0.13*BloodLiverUncerteinty4*CountMeal1_4
+VolumeBloodLiver     = VolumeBloodLiver_1 + VolumeBloodLiver_2 + VolumeBloodLiver_3 + VolumeBloodLiver_4
+
+Glycogen_liver = Gly_L*BW/(VolumeBloodLiver*666.6)
+I              = Ip*(BW/(VolumeBloodPeripheral))
+G              = Gp*BW/(VolumeBloodPeripheral*10)
+
+GlyDep_Meal_p                  = (Gly_L/GlyDep_Meal)^GlyDepEXP_Meal
+GlyDep_Meal_n                  = (GlyDep_Meal/Gly_L)^GlyDepEXP_Meal
+GlyDep_TCA_p                   = (Gly_L/GlyDep_TCA)^GlyDepEXP_TCA
+GlyDep_Gluconeogenesis_n       = (GlyDep_Glugoneogenesis/Gly_L)^GlyDepEXP_Glugoneogenesis
+GlyDep_KidneysEGP_n            = (GlyDep_KidneysEGP/Gly_L)^GlyDepEXP_KidneysEGP
+
+********** MODEL REACTIONS
+Q_sto         = Qsto1 + Qsto2
+aa  = 5/2/(1-b)/D
+cc  = 5/2/d/D
+k_empt        = k_min+(k_max-k_min)/2 *(tanh(aa*(Q_sto-b*D))-tanh(cc*(Q_sto-d*D))+2)
+
+Qsto1ToQsto2 = k_gri*Qsto1
+Qsto2ToQgut  = k_empt*Qsto2
+Qgut_out     = k_abs*Qgut
+
+ProteinDigestion    = ProteinBreakdown    * Intestines_Protein 
+
+aaIntoCrebCyle_Meal = (1-Aminoprofile_k)  * aaTransportation_k     * Intestines_aa    * GlyDep_Meal_n
+aaIntoPyruvate_Meal = Aminoprofile_k      * aaTransportation_k     * Intestines_aa    * GlyDep_Meal_n
+aaIntoLiver_Meal    = aaIntoPyruvate_Meal + aaIntoCrebCyle_Meal 
+
+aaIntoBody_Meal     = aaTransportation_k  * Intestines_aa          * GlyDep_Meal_p
+aaTransportation    = aaIntoLiver_Meal    + aaIntoBody_Meal
+
+Ra      = f*k_abs*Qgut/BW
+GtToGp  = k_2*Gt
+GpToGt  = k_1*Gp
+
+U_il        = (Uidl_diffusionMax*Gt)/(Uidl_diffusion0+Gt)
+EGP_Liver   = (GLUT2_diffusionMax*Gl)/(GLUT2_diffusion0+Gl)
+EGP_Kidneys = EGP_KidneysK * GlyDep_KidneysEGP_n
+EGP         = EGP_Liver + EGP_Kidneys
+
+PyruvateOxi_L       = Pyruvate_L * PyruvateOxi_k
+PyruvateTranslocase = PyruvateTranslocase_K * GlyDep_KidneysEGP_n
+
+DifferentInsulinResistance  = (DifferentInsulinTolerance_1*CountMeal1_1)    + (DifferentInsulinTolerance_2*CountMeal1_2)   + (DifferentInsulinTolerance_3*CountMeal1_3)   + (DifferentInsulinTolerance_4*CountMeal1_4)
+DifferentInsulinResponse    = (DifferentInsulinResponse_1*CountMeal1_1)     + (DifferentInsulinResponse_2*CountMeal1_2)    + (DifferentInsulinResponse_3*CountMeal1_3)    + (DifferentInsulinResponse_4*CountMeal1_4)
+DifferentInsulinDegradation = (DifferentInsulinDegradation_1*CountMeal1_1)  + (DifferentInsulinDegradation_2*CountMeal1_2) + (DifferentInsulinDegradation_3*CountMeal1_3) + (DifferentInsulinDegradation_4*CountMeal1_4)
+
+LiverInsulinResponse       = Il*InsulinLiverResponseK*DifferentInsulinResistance
+
+V_mmax     = V_m0+(V_mX*It*DifferentInsulinResistance)^InsDepEXP
+V_fmax     = V_f0+(V_fX*It*DifferentInsulinResistance)^InsDepEXP
+U_idm      = (V_mmax*Gt/(K_m0+Gt))
+U_idf      = (V_fmax*Gt/(K_f0+Gt))
+
+U_id       = U_idm + U_idf
+U_idii     = U_id + U_ii
+U_ii_print = U_ii
+U          = U_idii + U_il
+
+Glycogenesis    = (V_glySmax*Gl)/(GlyS+Gl)*LiverInsulinResponse
+Glycogenolysis  = (V_glyBmax*Gly_L)/(GlyB+Gly_L)
+
+Gluconeogenesis  = CrebCycle_L       * Gluconeogenesis_CrebK  * GlyDep_Gluconeogenesis_n
+Glycolysis       = Glycolysis_k      * Gl                     * LiverInsulinResponse^GlycolysisEXP
+
+CrebUsage             = CrebCycle_L * CrebUsage_K  * GlyDep_TCA_p
+
+ChangeInGlucose       = (K*DifferentInsulinResponse/180.16)*((Ra + GtToGp) - (U_ii + GpToGt))
+Basal_Insulin         = (S_b1*CountMeal1_1) + (S_b2*CountMeal1_2) + (S_b3*CountMeal1_3) + (S_b4*CountMeal1_4)
+Basal_Glucose         = (G_b1*CountMeal1_1) + (G_b2*CountMeal1_2) + (G_b3*CountMeal1_3) + (G_b4*CountMeal1_4)
+S_po                  = max(0,ChangeInGlucose + InsulinStabilization + Basal_Insulin)
+
+S      = gamma*Ipo
+IlToIp = m_1*Il
+IpToIl = m_2*Ip
+
+HE     = (-m_5*S)+m_6
+m_3    = HE*m_1/(1-HE)
+InsulinDegradation_Liver = m_3*Il*DifferentInsulinDegradation
+InsulinDegradation_Blood = m_4*Ip*DifferentInsulinDegradation
+
+InsulinStabilizationDelay    = (alpha/180.16)*((beta*DifferentInsulinResponse*(Gp-Basal_Glucose))- InsulinStabilization)
+InsulinToTissueDelay         = It_delay_k*(I-It)
+%---------------------------------------------------------------------------------------%
+carbintake1_solid   = (carb_amount1/meal_length1)      *1000 *meal_solid1  * meal_boolean1 *CountMeal1_1
+carbintake1_liquid  = (carb_amount1/meal_length1)      *1000 *meal_liquid1 * meal_boolean1 *CountMeal1_1
+proteinintake1      = (protein_amount1/meal_length1)   *1000               * meal_boolean1 *CountMeal1_1
+meal_amount1C       = (carb_amount1   ) *1000                              * meal_boolean1 *CountMeal1_1
+
+carbintake1_solid2    = (carb_amount1_2/meal_length1_2)       *1000 *meal_solid1      * meal_boolean1 *CountMeal1_2
+carbintake1_liquid2   = (carb_amount1_2/meal_length1_2)       *1000 *meal_liquid1     * meal_boolean1 *CountMeal1_2
+proteinintake1_2      = (protein_amount1_2/meal_length1_2)    *1000                   * meal_boolean1 *CountMeal1_2
+meal_amount1_2C       = (carb_amount1_2   )  *1000                                    * meal_boolean1 *CountMeal1_2
+
+carbintake1_solid3    = (carb_amount1_3/meal_length1_3)       *1000 *meal_solid1      * meal_boolean1 *CountMeal1_3
+carbintake1_liquid3   = (carb_amount1_3/meal_length1_3)       *1000 *meal_liquid1     * meal_boolean1 *CountMeal1_3
+proteinintake1_3      = (protein_amount1_3/meal_length1_3)    *1000                   * meal_boolean1 *CountMeal1_3
+meal_amount1_3C       = (carb_amount1_3   )  *1000                                    * meal_boolean1 *CountMeal1_3
+
+carbintake1_solid4    = (carb_amount1_4/meal_length1_4)       *1000 *meal_solid1      * meal_boolean1 *CountMeal1_4
+carbintake1_liquid4   = (carb_amount1_4/meal_length1_4)       *1000 *meal_liquid1     * meal_boolean1 *CountMeal1_4
+proteinintake1_4      = (protein_amount1_4/meal_length1_4)    *1000                   * meal_boolean1 *CountMeal1_4
+meal_amount1_4C       = (carb_amount1_4   )  *1000                                    * meal_boolean1 *CountMeal1_4
+
+carbintake2_solid   = (carb_amount2/meal_length2)     *1000 *meal_solid2  * meal_boolean2
+carbintake2_liquid  = (carb_amount2/meal_length2)     *1000 *meal_liquid2 * meal_boolean2
+proteinintake2      = (protein_amount2/meal_length2)  *1000               * meal_boolean2
+meal_amount2C       = (carb_amount2)*1000                                 * meal_boolean2
+
+Carbohydrate_Solid  = carbintake1_solid   + carbintake1_solid2  + carbintake1_solid3  + carbintake1_solid4  + carbintake2_solid
+Carbohydrate_Liquid = carbintake1_liquid + carbintake1_liquid2  + carbintake1_liquid3 + carbintake1_liquid4 + carbintake2_liquid
+Meal_Protein        = proteinintake1     + proteinintake1_2     + proteinintake1_3    + proteinintake1_4    + proteinintake2
+
+SteadyStateMealStart    = (meal_start1*CountMeal1_1) + (meal_start1_2*CountMeal1_2)   + (meal_start1_3*CountMeal1_3)  + (meal_start1_4*CountMeal1_4)
+SteadyStateMealLength   = (meal_length1*CountMeal1_1)+ (meal_length1_2*CountMeal1_2)  + (meal_length1_3*CountMeal1_3) + (meal_length1_4*CountMeal1_4)
+SteadyStateMeal_AmountC = (meal_amount1C)            + (meal_amount1_2C)              + (meal_amount1_3C)             + meal_amount1_4C
+%---------------------------------------------------------------------------------------%
+
+********** MODEL FUNCTIONS
+********** MODEL EVENTS
+meal_all_off=gt(time,0),meal_boolean1,0,meal_boolean2,0
+
+%----------Steady State Meals----------%
+
+1_meal_turn_on=gt(time,SteadyStateMealStart),meal_boolean1,1
+D_SteadyState =gt(time,SteadyStateMealStart+1),D,SteadyStateMeal_AmountC
+1_meal_turn_off=gt(time,SteadyStateMealStart+SteadyStateMealLength),meal_boolean1,0
+
+2_meal_turn_on=gt(time,SteadyStateMealStart+130),meal_boolean1,1
+2_meal_turn_off=gt(time,SteadyStateMealStart+SteadyStateMealLength+130),meal_boolean1,0
+
+3_meal_turn_on=gt(time,SteadyStateMealStart+520),meal_boolean1,1
+3_meal_turn_off=gt(time,SteadyStateMealStart+SteadyStateMealLength+520),meal_boolean1,0
+
+4_meal_turn_on=gt(time,SteadyStateMealStart+1300),meal_boolean1,1
+4_meal_turn_off=gt(time,SteadyStateMealStart+SteadyStateMealLength+1300),meal_boolean1,0
+
+5_meal_turn_on=gt(time,SteadyStateMealStart+1570),meal_boolean1,1
+5_meal_turn_off=gt(time,SteadyStateMealStart+SteadyStateMealLength+1570),meal_boolean1,0
+
+6_meal_turn_on=gt(time,SteadyStateMealStart+1960),meal_boolean1,1
+6_meal_turn_off=gt(time,SteadyStateMealStart+SteadyStateMealLength+1960),meal_boolean1,0
+
+7_meal_turn_on=gt(time,SteadyStateMealStart+2740),meal_boolean1,1
+7_meal_turn_off=gt(time,SteadyStateMealStart+SteadyStateMealLength+2740),meal_boolean1,0
+
+8_meal_turn_on=gt(time,SteadyStateMealStart+3010),meal_boolean1,1
+8_meal_turn_off=gt(time,SteadyStateMealStart+SteadyStateMealLength+3010),meal_boolean1,0
+
+9_meal_turn_on=gt(time,SteadyStateMealStart+3400),meal_boolean1,1
+9_meal_turn_off=gt(time,SteadyStateMealStart+SteadyStateMealLength+3400),meal_boolean1,0
+
+10_meal_turn_on=gt(time,SteadyStateMealStart+4180),meal_boolean1,1
+10_meal_turn_off=gt(time,SteadyStateMealStart+SteadyStateMealLength+4180),meal_boolean1,0
+
+11_meal_turn_on=gt(time,SteadyStateMealStart+4450),meal_boolean1,1
+11_meal_turn_off=gt(time,SteadyStateMealStart+SteadyStateMealLength+4450),meal_boolean1,0
+
+12_meal_turn_on=gt(time,SteadyStateMealStart+4840),meal_boolean1,1
+12_meal_turn_off=gt(time,SteadyStateMealStart+SteadyStateMealLength+4840),meal_boolean1,0
+
+11_meal_turn_on=gt(time,SteadyStateMealStart+5620),meal_boolean1,1
+11_meal_turn_off=gt(time,SteadyStateMealStart+SteadyStateMealLength+5620),meal_boolean1,0
+
+12_meal_turn_on=gt(time,SteadyStateMealStart+5890),meal_boolean1,1
+12_meal_turn_off=gt(time,SteadyStateMealStart+SteadyStateMealLength+5890),meal_boolean1,0
+
+13_meal_turn_on=gt(time,SteadyStateMealStart+6280),meal_boolean1,1
+13_meal_turn_off=gt(time,SteadyStateMealStart+SteadyStateMealLength+6280),meal_boolean1,0
+
+%---------- Studies ----------%
+D_Study =gt(time,meal_start2+7600),D,(carb_amount2)*1000
+
+A_meal_turn_on=gt(time,meal_start2+7680),meal_boolean2,1
+A_meal_turn_off=gt(time,meal_start2+meal_length2+7680),meal_boolean2,0
+
+********** MODEL MATLAB FUNCTIONS
