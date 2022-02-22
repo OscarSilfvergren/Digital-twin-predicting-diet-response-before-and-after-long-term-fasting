@@ -5,11 +5,13 @@ Mathematical model that predicts diets consiting of protein, carbohydrates and f
 integrating partial insight from several clinical studies (estimation data) into an interconnective and big 
 picture (predictions).
 
-All scripts, functions, models, and data used are attached in this map. Please run scripts initially through 
+All scripts, functions, models, and data used are attached in this folder. Please run scripts initially through 
 the script called "main" to ensure that all data and variables are loaded properly. 
 Scritps have been created to make it easy to plot all figures used in article, see "Figure2.m", "Figure3.m" etc.
+
 To be able to create a mex file you need to run IQM toolbox prior of the main. Please see attached map "IQMtools" and read 
-the instructions listed.
+the instructions listed. The script "LoadEverything.m" will help you install IQMtools if you unzip folder and place the single 
+"IQMtools" folder, that contains all IQM files, in your directory.
 
 If needed, please contact gunnar.cedersund@liu.se for any questions.
 
