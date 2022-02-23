@@ -87,7 +87,7 @@ fill(time2/60-127,y,'b','FaceAlpha',0.2,'EdgeAlpha',0);
 plot(time/60-127,simBest.reactionvalues(:,ismember(simBest.reactions,'EGP')),'b-.','LineWidth',LineWidthValue)
 xlabel("Time (h)",'FontSmoothing','on','fontname','Arial');
 ylabel({'EGP' ; '(mg/kg/min)'},'FontSmoothing','on','fontname','Arial');
-errorbar(Firth1986_data.time_EGP_healthy(1:3)/60-127,Firth1986_data.EGP_healthy((1:4)),Firth1986_data.EGPSEM_healthy((1:3)),' k x','MarkerSize',70,'LineWidth',10,'CapSize',CapSize');
+errorbar(Firth1986_data.time_EGP_healthy(1:3)/60-127,Firth1986_data.EGP_healthy((1:3)),Firth1986_data.EGPSEM_healthy((1:3)),' k x','MarkerSize',70,'LineWidth',10,'CapSize',CapSize');
 errorbar(Firth1986_data.time_EGP_healthy(1:14)/60-127,Firth1986_data.EGP_healthy(1:14),Firth1986_data.EGPSEM_healthy(1:14),' k .','MarkerSize',1,'LineWidth',10,'CapSize',CapSize');
 line([1 1.16], [0 0],'Color','k','LineWidth',12);
 xlim([0 8.5])
