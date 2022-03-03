@@ -87,7 +87,7 @@ for i = 1:row
     Silfvergren2021_ParamP1fedCalibrated(i,:) = Silfvergren2021_ParamP1fed;
     
     % unfed
-    func =@(params)Silfvergren2021_costfunction(Silfvergren2021_data.Value_fasted_p1(1:60),Silfvergren2021_data.time_fastedStart_p1(1:60),time,params,modelName,body_information,meal_information,2);
+    func =@(params)Silfvergren2021_costfunction(Silfvergren2021_data.Value_fasted_p1(1:60),Silfvergren2021_data.time_fastedStart_p1(1:59),time,params,modelName,body_information,meal_information,2);
     [Silfvergren2021_ParamP1unfed, minCostPS] = particleswarm(func, length(lb), lb, ub, options2);
     Silfvergren2021_ParamP1unfed = exp(Silfvergren2021_ParamP1unfed);
     Silfvergren2021_ParamP1unfed = AssignParameter(Silfvergren2021_ParamP1unfed, body_information, meal_information);
@@ -130,7 +130,7 @@ for i = 1:row
     Silfvergren2021_ParamP2fedCalibrated(i,:) = Silfvergren2021_ParamP2fed;
     
     % unfed
-    func =@(params)Silfvergren2021_costfunction(Silfvergren2021_data.Value_fasted_p2(1:46),Silfvergren2021_data.time_fastedStart_p2(1:46),time,params,modelName,body_information,meal_information,3);
+    func =@(params)Silfvergren2021_costfunction(Silfvergren2021_data.Value_fasted_p2(1:46),Silfvergren2021_data.time_fastedStart_p2(1:44),time,params,modelName,body_information,meal_information,3);
     [Silfvergren2021_ParamP2unfed, minCostPS] = particleswarm(func, length(lb), lb, ub, options2);
     Silfvergren2021_ParamP2unfed = exp(Silfvergren2021_ParamP2unfed);
     Silfvergren2021_ParamP2unfed = AssignParameter(Silfvergren2021_ParamP2unfed, body_information, meal_information);
