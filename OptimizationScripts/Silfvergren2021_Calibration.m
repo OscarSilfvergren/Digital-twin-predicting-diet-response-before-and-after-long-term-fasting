@@ -12,53 +12,53 @@ params = ModelStartGuess(1:80);
 [row column] = size(ModelValidationHealthyA);
 OptimizedParamsSorted = sortrows(ModelValidationHealthyA,column);
 
-%% Fasting intervention
-
-clear Silfvergren2021_ParamHealthyCalibratedp1
-clear Silfvergren2021_ParamHealthyCalibratedp2
-
-for i = 1:row
-    
-    optimizedParamTemp = OptimizedParamsSorted(i,1:(column-1));
-    
-    lb(1:80)   = log(optimizedParamTemp(1:80));
-    ub(1:80)   = log(optimizedParamTemp(1:80));
-
-    [lb,ub] = DifferentPopulationCalibration(lb,ub,ParameterBounds);
-    lb(75:80)  = log(ParameterBounds.LowerBoundHealthy(75:80));
-    ub(75:80)  = log(ParameterBounds.UpperBoundHealthy(75:80));
-    
-    % P1
-    body_information = [1 , 0, 178, 84 ];  % female, male, height, weight
-    meal_information = [1, 0, 0, 0];
-    
-    func =@(params)Silfvergren2021_costfunction(Silfvergren2021_data.p1_glucoseCalibrated,Silfvergren2021_data.time,time,params,modelName,body_information,meal_information,3);
-    [Silfvergren2021_ParamHealthy, minCostPS] = particleswarm(func, length(lb), lb, ub, options2);
-    Silfvergren2021_ParamHealthy = exp(Silfvergren2021_ParamHealthy);
-    Silfvergren2021_ParamHealthy = AssignParameter(Silfvergren2021_ParamHealthy, body_information, meal_information);
-    Silfvergren2021_ParamHealthy(column) = minCostPS;
-    Silfvergren2021_ParamHealthyCalibratedp1(i,:) = Silfvergren2021_ParamHealthy;
-    
-    % P2
-    body_information = [0 , 1, 180, 87 ];  % female, male, height, weight
-    meal_information = [1, 0, 0, 0];
-    
-    func =@(params)Silfvergren2021_costfunction(Silfvergren2021_data.p2_glucose,Silfvergren2021_data.time,time,params,modelName,body_information,meal_information,4);
-    [Silfvergren2021_ParamHealthy, minCostPS] = particleswarm(func, length(lb), lb, ub, options2);
-    Silfvergren2021_ParamHealthy = exp(Silfvergren2021_ParamHealthy);
-    Silfvergren2021_ParamHealthy = AssignParameter(Silfvergren2021_ParamHealthy, body_information, meal_information);
-    Silfvergren2021_ParamHealthy(column) = minCostPS;
-    Silfvergren2021_ParamHealthyCalibratedp2(i,:) = Silfvergren2021_ParamHealthy;
-    
-    i = i
-end
-
-% Save best Param
-Silfvergren2021_ParamHealthyCalibratedp1 = sortrows(Silfvergren2021_ParamHealthyCalibratedp1,column);
-save(['Silfvergren2021_ParamHealthyCalibratedp1' datestr(now, 'yymmdd-HHMMSS')],'Silfvergren2021_ParamHealthyCalibratedp1');
-
-Silfvergren2021_ParamHealthyCalibratedp2 = sortrows(Silfvergren2021_ParamHealthyCalibratedp2,column);
-save(['Silfvergren2021_ParamHealthyCalibratedp2' datestr(now, 'yymmdd-HHMMSS')],'Silfvergren2021_ParamHealthyCalibratedp2');
+% %% Fasting intervention
+% 
+% clear Silfvergren2021_ParamHealthyCalibratedp1
+% clear Silfvergren2021_ParamHealthyCalibratedp2
+% 
+% for i = 1:row
+%     
+%     optimizedParamTemp = OptimizedParamsSorted(i,1:(column-1));
+%     
+%     lb(1:80)   = log(optimizedParamTemp(1:80));
+%     ub(1:80)   = log(optimizedParamTemp(1:80));
+% 
+%     [lb,ub] = DifferentPopulationCalibration(lb,ub,ParameterBounds);
+%     lb(75:80)  = log(ParameterBounds.LowerBoundHealthy(75:80));
+%     ub(75:80)  = log(ParameterBounds.UpperBoundHealthy(75:80));
+%     
+%     % P1
+%     body_information = [1 , 0, 178, 84 ];  % female, male, height, weight
+%     meal_information = [1, 0, 0, 0];
+%     
+%     func =@(params)Silfvergren2021_costfunction(Silfvergren2021_data.p1_glucoseCalibrated,Silfvergren2021_data.time,time,params,modelName,body_information,meal_information,3);
+%     [Silfvergren2021_ParamHealthy, minCostPS] = particleswarm(func, length(lb), lb, ub, options2);
+%     Silfvergren2021_ParamHealthy = exp(Silfvergren2021_ParamHealthy);
+%     Silfvergren2021_ParamHealthy = AssignParameter(Silfvergren2021_ParamHealthy, body_information, meal_information);
+%     Silfvergren2021_ParamHealthy(column) = minCostPS;
+%     Silfvergren2021_ParamHealthyCalibratedp1(i,:) = Silfvergren2021_ParamHealthy;
+%     
+%     % P2
+%     body_information = [0 , 1, 180, 87 ];  % female, male, height, weight
+%     meal_information = [1, 0, 0, 0];
+%     
+%     func =@(params)Silfvergren2021_costfunction(Silfvergren2021_data.p2_glucose,Silfvergren2021_data.time,time,params,modelName,body_information,meal_information,4);
+%     [Silfvergren2021_ParamHealthy, minCostPS] = particleswarm(func, length(lb), lb, ub, options2);
+%     Silfvergren2021_ParamHealthy = exp(Silfvergren2021_ParamHealthy);
+%     Silfvergren2021_ParamHealthy = AssignParameter(Silfvergren2021_ParamHealthy, body_information, meal_information);
+%     Silfvergren2021_ParamHealthy(column) = minCostPS;
+%     Silfvergren2021_ParamHealthyCalibratedp2(i,:) = Silfvergren2021_ParamHealthy;
+%     
+%     i = i
+% end
+% 
+% % Save best Param
+% Silfvergren2021_ParamHealthyCalibratedp1 = sortrows(Silfvergren2021_ParamHealthyCalibratedp1,column);
+% save(['Silfvergren2021_ParamHealthyCalibratedp1' datestr(now, 'yymmdd-HHMMSS')],'Silfvergren2021_ParamHealthyCalibratedp1');
+% 
+% Silfvergren2021_ParamHealthyCalibratedp2 = sortrows(Silfvergren2021_ParamHealthyCalibratedp2,column);
+% save(['Silfvergren2021_ParamHealthyCalibratedp2' datestr(now, 'yymmdd-HHMMSS')],'Silfvergren2021_ParamHealthyCalibratedp2');
 
 %% OPTT; P1
 
@@ -118,7 +118,7 @@ for i = 1:row
     lb(75:80)  = log(ParameterBounds.LowerBoundHealthy(75:80));
     ub(75:80)  = log(ParameterBounds.UpperBoundHealthy(75:80));
     
-    body_information = [1 , 0, 178, 84 ];  % female, male, height, weight
+    body_information = [1 , 0, 180, 87 ];  % female, male, height, weight
     meal_information = [3, 0, 2.6, 25.55];
     
     % fed
