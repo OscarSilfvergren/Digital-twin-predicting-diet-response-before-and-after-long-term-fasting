@@ -3,7 +3,8 @@ modelName = 'DallamanOldData';
 model = IQMmodel([modelName '.txt']);
 IQMmakeMEXmodel(model);
 model = str2func(modelName);
-simOld = model(time,[],[]);
+OptimizeDallaManOld_params(41:43) = [0,60,75000];
+simOld = model(time,[],OptimizeDallaManOld_params);
 
 % New
 load('DallaMan2007_param');

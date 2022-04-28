@@ -1,0 +1,62 @@
+function y = postpadIQM(x, l, c, dim)
+% y = postpadIQM(x, l)
+% y = postpadIQM(x, l, c)
+% y = postpadIQM(x, l, c, dim)
+% postpadIQM: Appends value c (default: 0) until to extend vector x to a
+% length of l. Same with matrices x, where the dimension to extend is given
+% by dim (default: 1). 
+
+% <<<COPYRIGHTSTATEMENT - IQM TOOLS LITE>>>
+
+if (nargin < 2 || nargin > 4)
+    error('Incorrect number of input arguments.');
+end
+
+if (nargin < 3 || isempty (c))
+    c = 0;
+else
+    if (~isscalar (c))
+        error ('postpadIQM: third argument must be empty or a scalar');
+    end
+end
+
+nd = ndims (x);
+sz = size (x);
+if (nargin < 4)
+    % Find the first non-singleton dimension
+    dim  = 1;
+    while (dim < nd + 1 && sz (dim) == 1),
+        dim = dim + 1;
+    end
+    if (dim > nd)
+        dim = 1;
+    end
+else
+    if (~(isscalar (dim) && dim == round (dim)) && dim > 0 && dim < (nd + 1))
+        error ('postpadIQM: dim must be an integer and valid dimension');
+    end
+end
+
+if (~ isscalar (l) || l < 0)
+    error ('postpadIQM: second argument must be a positive scaler');
+end
+
+if (dim > nd)
+    sz(nd+1:dim) = 1;
+end
+
+d = sz (dim);
+
+if (d >= l)
+    idx = cell ();
+    for i = 1:nd
+        idx{i} = 1:sz(i);
+    end
+    idx{dim} = 1:l;
+    y = x(idx{:});
+else
+    sz (dim) = l - d;
+    y = cat (dim, x, c * ones (sz));
+end
+
+return

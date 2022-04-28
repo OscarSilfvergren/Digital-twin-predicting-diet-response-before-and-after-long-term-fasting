@@ -1,0 +1,15 @@
+function [ COMPLIANCE_OUTPUT_MODE ] = getComplianceModeIQM()
+% This function returns value of the setting COMPLIANCE_OUTPUT_MODE in
+% SETUP_PATHS_TOOLS_IQMLITE.   
+%
+% [SYNTAX]
+% [ COMPLIANCE_OUTPUT_MODE ] = getComplianceModeIQM()
+%
+% [INPUT]
+%
+% [OUTPUT]
+% COMPLIANCE_OUTPUT_MODE:     Value of COMPLIANCE_OUTPUT_MODE
+
+% <<<COPYRIGHTSTATEMENT - IQM TOOLS PRO>>>
+
+SETUP_PATHS_TOOLS_IQMLITE

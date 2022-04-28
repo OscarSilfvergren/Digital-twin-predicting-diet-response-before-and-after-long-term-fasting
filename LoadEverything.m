@@ -23,6 +23,7 @@ load('Krssak2004_dataHealthy.mat');
 load('Magnusson1992_data');
 load('ModelValidationHealthy_params');
 load('Silfvergren2021Everyday_data');
+load('OptimizeDallaManOld_params');
 
 options2 = optimoptions(@particleswarm,'PlotFcn','pswplotbestf');
 time = linspace(0,12500,12501);

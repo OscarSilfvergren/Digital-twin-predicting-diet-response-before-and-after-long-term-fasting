@@ -1,0 +1,88 @@
+<style>
+/* MAIN POSITION */
+body {
+  background-color: #ffffff;
+  margin: 5px;
+  FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif; 
+  FONT-SIZE: 12px; 
+  color: #2e3640;
+  text-align : justify;
+  line-height: 150%;
+}
+
+h1 {  
+	COLOR: #ffffff;   
+	FONT-SIZE: 20px;   
+	FONT-WEIGHT: normal;   
+	BACKGROUND: #d4db7b; 
+	padding: 2px 2px 7px 5px;  /* t r b l */
+	margin: 0px 0px 10px 0px;
+	display: block;
+	text-align: left;
+}
+
+p {
+	margin-bottom : 5px;	
+}
+
+a { 
+	COLOR: #929d00; 
+}
+
+table {
+	padding: 0px 0px 0px 0px;
+	margin: 0px 0px 0px 0px;
+	background: #ffffff;
+}
+
+td { 
+	padding: 5px 5px 5px 5px;
+	background: #f3f5f7;
+	margin: 0px 0px 0px 0px;
+	color: #2e3640;
+	font-size: 12px;
+    line-height: 150%;  
+}
+
+td.announcement {
+	border-style: solid;
+	border-color: #b7c034;
+	border-width: 2px;
+}
+
+li {
+	margin: 0px 0px 4px 0px;
+}
+
+ul {
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+</style>
+<h1>Documentation IQMparamestGUI</h1>
+<img src="pics/dart.png" width="200" align="right">
+<b>The IQMparamestGUI is a graphical user-interface aiming at giving users,
+which are unfamiliar with the MATLAB command line interface, the possibility of using 
+the IQM Tools Pro for parameter estimation tasks.</b>
+<p>
+Its use is hopefully (almost) self-explaining. Essentially, the main steps are the following:
+<ol>
+    <li><em>Load</em> (or <em>Import</em>) a project using the <em>File</em> menu.
+    <li>Choose the parameters/initial conditions you want to estimate. You need to specify their names and
+        lower and upper bounds.
+        <ul>
+            <li>Global parameters are model parameters that are the same across all experiments.
+            <li>Local parameters are experiment dependent.
+            <li>Initial conditions are always estimated experiment dependent.
+        </ul>
+        The <em>Initialize</em> and <em>Write out</em> buttons help with this task. Try them out and you will see
+        what they do. Copy and paste and change as you need it.
+    <li>Select desired estimation settings.
+    <li>Run the parameter estimation.
+    <li>Following the parameter estimation you can perform a fit analysis. A good idea is to select the 
+        <em>simplexIQM</em> or <em>SSmIQM</em> (if availabe) optimization methods for that, using smaller settings
+        for the maximum number of iterations.
+    <li>Export or save the project using again the <em>File</em> menu.
+</ol>
+At all times other tasks can be run from the buttons to the left. Just try them out.
+<p>
