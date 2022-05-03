@@ -52,6 +52,19 @@ for i = 1:row
         maxG2 = max(maxG2,maxG1);
         minG2 = min(minG2,minG1);
     end
+    
+        if i == 1
+        maxPT1 = sim.reactionvalues(:,ismember(sim.reactions,'PyruvateTranslocase'));
+        minPT1 = sim.reactionvalues(:,ismember(sim.reactions,'PyruvateTranslocase'));
+        maxPT2 = sim.reactionvalues(:,ismember(sim.reactions,'PyruvateTranslocase'));
+        minPT2 = sim.reactionvalues(:,ismember(sim.reactions,'PyruvateTranslocase'));
+    else
+        maxPT1 = sim.reactionvalues(:,ismember(sim.reactions,'PyruvateTranslocase'));
+        minPT1 = sim.reactionvalues(:,ismember(sim.reactions,'PyruvateTranslocase'));
+        maxPT2 = max(maxPT2,maxPT1);
+        minPT2 = min(minPT2,minPT1);
+        end
+    
 end
 
 MaxP1 = maxG2;
@@ -60,7 +73,7 @@ MinP1 = minG2;
 figure('Name', "Glucose fasting participant 1", 'units', 'normalized', 'outerposition', [0 0 1 1])
 hold on
 a = gca;
-set(a,'xtick',[0,1,2],'ytick',[0,2,3,4,5,6,7],'FontSize', 70,'fontname','Arial')%,'FontSmoothing','on')
+set(a,'xtick',[0,1,2],'ytick',[0,2,3,4,5,6,7],'FontSize', 70,'fontname','Arial')
 yP1    = [MaxP1', fliplr(MinP1')];
 fill(time2/1440-5.33,yP1,'b','FaceAlpha',0.2,'EdgeAlpha',0);
 plot(time/1440-5.33, simBest.variablevalues(:,ismember(simBest.variables,'G'))/18,'b-.','LineWidth',LineWidthValue);
@@ -70,6 +83,19 @@ ylabel({'Plasma glucose' ; '(mM)'},'FontSmoothing','on','fontname','Arial');
 xlabel("Time (days)",'FontSmoothing','on','fontname','Arial');
 xlim([0 2])
 ylim([3 6])
+hold off
+
+figure('Name', "PyruvateTranslocase 1", 'units', 'normalized', 'outerposition', [0 0 1 1])
+hold on
+a = gca;
+set(a,'xtick',[0,1,2],'ytick',[5,10,15],'FontSize', 65,'fontname','Arial')
+yP1    = [maxPT2', fliplr(minPT2')];
+fill(time2/1440-5.33,yP1*1000,'b','FaceAlpha',0.2,'EdgeAlpha',0);
+plot(time/1440-5.33, simBest.reactionvalues(:,ismember(simBest.reactions,'PyruvateTranslocase'))*1000,'b-.','LineWidth',LineWidthValue);
+ylabel({'Pyruvate from body' ; 'into liver (ug/kg/min)'},'FontSmoothing','on','fontname','Arial');
+xlabel("Time (days)",'FontSmoothing','on','fontname','Arial');
+xlim([-0.1 2.5])
+ylim([5 15])
 hold off
 
 %% P2
@@ -115,6 +141,17 @@ for i = 1:row
         maxG2 = max(maxG2,maxG1);
         minG2 = min(minG2,minG1);
     end
+            if i == 1
+        maxPT1 = sim.reactionvalues(:,ismember(sim.reactions,'PyruvateTranslocase'));
+        minPT1 = sim.reactionvalues(:,ismember(sim.reactions,'PyruvateTranslocase'));
+        maxPT2 = sim.reactionvalues(:,ismember(sim.reactions,'PyruvateTranslocase'));
+        minPT2 = sim.reactionvalues(:,ismember(sim.reactions,'PyruvateTranslocase'));
+    else
+        maxPT1 = sim.reactionvalues(:,ismember(sim.reactions,'PyruvateTranslocase'));
+        minPT1 = sim.reactionvalues(:,ismember(sim.reactions,'PyruvateTranslocase'));
+        maxPT2 = max(maxPT2,maxPT1);
+        minPT2 = min(minPT2,minPT1);
+            end
 end
 MaxP2 = maxG2;
 MinP2 = minG2;
@@ -133,6 +170,19 @@ ylabel({'Plasma glucose' ; '(mM)'},'FontSmoothing','on','fontname','Arial');
 xlabel("Time (days)",'FontSmoothing','on','fontname','Arial');
 xlim([0 2])
 ylim([3 6])
+hold off
+
+figure('Name', "PyruvateTranslocase 2", 'units', 'normalized', 'outerposition', [0 0 1 1])
+hold on
+a = gca;
+set(a,'xtick',[0,1,2],'ytick',[5,10,15],'FontSize', 65,'fontname','Arial')
+yP1    = [maxPT2', fliplr(minPT2')];
+fill(time2/1440-5.33,yP1*1000,'b','FaceAlpha',0.2,'EdgeAlpha',0);
+plot(time/1440-5.33, simBest.reactionvalues(:,ismember(simBest.reactions,'PyruvateTranslocase'))*1000,'b-.','LineWidth',LineWidthValue);
+ylabel({'Pyruvate from body' ; 'into liver (ug/kg/min)'},'FontSmoothing','on','fontname','Arial');
+xlabel("Time (days)",'FontSmoothing','on','fontname','Arial');
+xlim([-0.1 2.5])
+ylim([5 15])
 hold off
 
 %% Meals
@@ -176,6 +226,7 @@ for i = 1:row
         maxG2 = max(maxG2,maxG1);
         minG2 = min(minG2,minG1);
     end
+
 end
 MaxP1 = maxG2;
 MinP1 = minG2;
@@ -195,7 +246,7 @@ plot((Silfvergren2021_data.time_fed_p1(1:2)-7680)/60,Silfvergren2021_data.value_
 plot((Silfvergren2021_data.time_fed_p1-7680)/60,Silfvergren2021_data.value_fed_p1,'k.','MarkerSize',80)
 line([0 0.05], [3 3],'Color','k','LineWidth',12);
 xlim([-0.1 4])
-ylim([3, 6])
+ylim([3 6])
 hold off
 
 %% fed p2
@@ -241,6 +292,7 @@ for i = 1:row
         maxG2 = max(maxG2,maxG1);
         minG2 = min(minG2,minG1);
     end
+    
 end
 MaxP1 = maxG2;
 MinP1 = minG2;
@@ -305,6 +357,19 @@ for i = 1:row
         maxG2 = max(maxG2,maxG1);
         minG2 = min(minG2,minG1);
     end
+    
+                if i == 1
+        maxGNG1 = sim.reactionvalues(:,ismember(sim.reactions,'Gluconeogenesis'));
+        minGNG1 = sim.reactionvalues(:,ismember(sim.reactions,'Gluconeogenesis'));
+        maxGNG2 = sim.reactionvalues(:,ismember(sim.reactions,'Gluconeogenesis'));
+        minGNG2 = sim.reactionvalues(:,ismember(sim.reactions,'Gluconeogenesis'));
+    else
+        maxGNG1 = sim.reactionvalues(:,ismember(sim.reactions,'Gluconeogenesis'));
+        minGNG1 = sim.reactionvalues(:,ismember(sim.reactions,'Gluconeogenesis'));
+        maxGNG2 = max(maxGNG2,maxGNG1);
+        minGNG2 = min(minGNG2,minGNG1);
+            end
+    
 end
 MaxP1 = maxG2;
 MinP1 = minG2;
@@ -325,6 +390,19 @@ line([0.2 0.25], [2 2],'Color','k','LineWidth',12);
 xlim([-0.1 4])
 ylim([2, 6])
 hold off
+
+figure('Name', "GNG unfed p1", 'units', 'normalized', 'outerposition', [0 0 1 1])
+hold on
+a = gca;
+set(a,'xtick',[0,1,2],'ytick',[0,0.5,1],'FontSize', 65,'fontname','Arial')
+yP1    = [minGNG2', fliplr(maxGNG2')];
+fill(time2/1440-5.33,yP1,'b','FaceAlpha',0.2,'EdgeAlpha',0);
+line([0 0.05], [0 0],'Color','k','LineWidth',12);
+line([2 2.05], [0 0],'Color','k','LineWidth',12);
+plot(time/1440-5.33, simBest.reactionvalues(:,ismember(simBest.reactions,'Gluconeogenesis')),'b-.','LineWidth',LineWidthValue);
+ylabel({'Gluconeogenesis' ; '(mg/kg/min)'},'FontSmoothing','on','fontname','Arial');
+xlabel("Time (days)",'FontSmoothing','on','fontname','Arial');
+xlim([-0.1 2.5])
 
 %% unfed p2
 load('Silfvergren2021_ParamP2unfedCalibrated');
@@ -365,6 +443,19 @@ for i = 1:row
         maxG2 = max(maxG2,maxG1);
         minG2 = min(minG2,minG1);
     end
+    
+            if i == 1
+        maxGNG1 = sim.reactionvalues(:,ismember(sim.reactions,'Gluconeogenesis'));
+        minGNG1 = sim.reactionvalues(:,ismember(sim.reactions,'Gluconeogenesis'));
+        maxGNG2 = sim.reactionvalues(:,ismember(sim.reactions,'Gluconeogenesis'));
+        minGNG2 = sim.reactionvalues(:,ismember(sim.reactions,'Gluconeogenesis'));
+    else
+        maxGNG1 = sim.reactionvalues(:,ismember(sim.reactions,'Gluconeogenesis'));
+        minGNG1 = sim.reactionvalues(:,ismember(sim.reactions,'Gluconeogenesis'));
+        maxGNG2 = max(maxGNG2,maxGNG1);
+        minGNG2 = min(minGNG2,minGNG1);
+            end
+    
 end
 MaxP1 = maxG2;
 MinP1 = minG2;
@@ -379,9 +470,24 @@ fill((time2-10560)/60,yP1,'b','FaceAlpha',0.2,'EdgeAlpha',0);
 plot((time-10560)/60, simBest.variablevalues(:,ismember(simBest.variables,'G'))/18,'b-.','LineWidth',LineWidthValue);
 xlabel("Time (h)",'FontSmoothing','on','fontname','Arial');
 ylabel({'Plasma glucose' ; '(mM)'},'FontSmoothing','on','fontname','Arial');
-plot((Silfvergren2021_data.time_fastedStart_p2(1:3)-10560)/60,Silfvergren2021_data.Value_fasted_p2(1:3),'kx','MarkerSize',80,'LineWidth',10)
+plot((Silfvergren2021_data.time_fastedStart_p2(1:2)-10560)/60,Silfvergren2021_data.Value_fasted_p2(1:2),'kx','MarkerSize',80,'LineWidth',10)
 plot((Silfvergren2021_data.time_fastedStart_p2-10560)/60,Silfvergren2021_data.Value_fasted_p2,'k.','MarkerSize',80)
 line([0.2 0.25], [2 2],'Color','k','LineWidth',12);
 xlim([-0.1 4])
 ylim([2, 6])
+hold off
+
+figure('Name', "GNG unfed p2", 'units', 'normalized', 'outerposition', [0 0 1 1])
+hold on
+a = gca;
+set(a,'xtick',[0,1,2],'ytick',[0,0.5,1],'FontSize', 65,'fontname','Arial')
+yP1    = [minGNG2', fliplr(maxGNG2')];
+fill(time2/1440-5.33,yP1,'b','FaceAlpha',0.2,'EdgeAlpha',0);
+line([0 0.05], [0 0],'Color','k','LineWidth',12);
+line([2 2.05], [0 0],'Color','k','LineWidth',12);
+plot(time/1440-5.33, simBest.reactionvalues(:,ismember(simBest.reactions,'Gluconeogenesis')),'b-.','LineWidth',LineWidthValue);
+ylabel({'Gluconeogenesis' ; '(mg/kg/min)'},'FontSmoothing','on','fontname','Arial');
+xlabel("Time (days)",'FontSmoothing','on','fontname','Arial');
+xlim([-0.1 2.5])
+ylim([0 1])
 hold off

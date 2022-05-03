@@ -310,27 +310,17 @@ xlim([0 24])
 ylim([80 400])
 hold off
 
-X = categorical({'23h of fasting'});
-X = reordercats(X,{'23h of fasting'});
+X = categorical({'Simulation', 'Data'});
+X = reordercats(X,{'Simulation', 'Data'});
 
-sortbar = 70 - ratio_Gluconeogenesis*100;
-sortbarMax = sort(sortbar,'descend');
-sortbarMin = sort(sortbar,'ascend');
-clear sortbarduouble
-sortbardouble = [sortbarMax sortbarMin];
-[row,column]   = size(sortbardouble);
-for i = 1:(column)/2
-    sortbar(i) = sortbardouble(i*2);
-end
-[row column] = size(ModelValidationHealthy);
-sortbar =  70 - sortbar;
+ratio_Gluconeogenesis = BestMinMax(ratio_Gluconeogenesis,70/100);
 
 % All
 figure('Name', " ", 'units', 'normalized', 'outerposition', [0 0 1 1])
 hold on
-set(gca,'ytick',[0,50,100],'FontSize', 70,'fontname','Arial')%,'FontSmoothing','on')
-bar(X,sortbar,'b','FaceAlpha',0.4,'EdgeAlpha',0.6);
-errorbar(1,70,6,' k .','MarkerSize',1,'LineWidth',10,'CapSize',20');
+set(gca,'ytick',[0,50,100],'FontSize', 65,'fontname','Arial')%,'FontSmoothing','on')
+bar(X,[ratio_Gluconeogenesis(1);70] ,'b','FaceAlpha',0.4,'EdgeAlpha',0.6);
+errorbar(X,[ratio_Gluconeogenesis(1);70],[ratio_Gluconeogenesis(2);6],' k .','MarkerSize',1,'LineWidth',10,'CapSize',20');
 ylabel({'Gluconeogenesis' ; 'contribution to EGP (%)'},'FontSmoothing','on','fontname','Arial');
 ylim([0 100])
 hold off
@@ -588,28 +578,19 @@ ylim([0 200])
 hold off
 
 % GNG
-X = categorical({'23h of fasting'});
-X = reordercats(X,{'23h of fasting'});
+X = categorical({'Simulation', 'Data'});
+X = reordercats(X,{'Simulation', 'Data'});
 
-sortbar = 88 - ratio_Gluconeogenesis*100;
-sortbarMax = sort(sortbar,'descend');
-sortbarMin = sort(sortbar,'ascend');
-clear sortbarduouble
-sortbardouble = [sortbarMax sortbarMin];
-[row,column]   = size(sortbardouble);
-for i = 1:(column)/2
-    sortbar(i) = sortbardouble(i*2);
-end
-sortbar =  88 - sortbar;
-
+ratio_Gluconeogenesis = BestMinMax(ratio_Gluconeogenesis,88/100);
+%%
 % All
 figure('Name', " ", 'units', 'normalized', 'outerposition', [0 0 1 1])
 hold on
 a = gca;
-set(a,'ytick',[0,50,100],'FontSize', 70)%,'FontSmoothing','on')
+set(a,'ytick',[0,50,100],'FontSize', 65)%,'FontSmoothing','on')
 ratio_EGP = 1;
-bar(X,sortbar,'r');
-errorbar(X,88,2,' k .','MarkerSize',1,'LineWidth',10,'CapSize',20');
+bar(X,[ratio_Gluconeogenesis(1);88],'r');
+errorbar(X,[ratio_Gluconeogenesis(1);88],[ratio_Gluconeogenesis(2);2],' k .','MarkerSize',1,'LineWidth',10,'CapSize',20');
 ylabel({'Gluconeogenesis' ; ' contribution to EGP %'},'FontSmoothing','on','fontname','Arial');
 ylim([0 100])
 hold off

@@ -5,6 +5,7 @@ addpath('OptimizationScripts')
 addpath('Parameters')
 addpath('PlotScripts')
 addpath('IQMtools')
+addpath('GeneralFunctions')
 
 load('ParameterBounds');
 load('ModelStartGuess');

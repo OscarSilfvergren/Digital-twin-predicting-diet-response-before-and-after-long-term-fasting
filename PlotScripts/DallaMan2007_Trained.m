@@ -272,37 +272,20 @@ end
 % EGP vs kidneys
 figure('Name', "EGP vs kidney", 'units', 'normalized', 'outerposition', [0 0 1 1])
 
-X = categorical({'Kidneys','Liver'});
-X = reordercats(X,{'Kidneys','Liver'});
+% X = categorical({'Sim Kidneys','Data Kidneys','Sim Liver','Data Liver'});
+% X = reordercats(X,{'Sim Kidneys','Data Kidneys','Sim Liver','Data Liver'});
 
-% Sort Ratio kidney
-sortbar = 20 - ratioK*100;
-sortbarMax = sort(sortbar,'descend');
-sortbarMin = sort(sortbar,'ascend');
-clear sortbarduouble
-sortbardouble = [sortbarMax sortbarMin];
-[row,column]   = size(sortbardouble);
-for i = 1:(column)/2
-    sortbar(i) = sortbardouble(i*2);
-end
-ratioK =  20 - sortbar;
+X = categorical({'Sim 1','Data 1','Sim 2','Data 2'});
+X = reordercats(X,{'Sim 1','Data 1','Sim 2','Data 2'});
 
-% Sort Ratio Liver
-sortbar = 80 - ratioL*100;
-sortbarMax = sort(sortbar,'descend');
-sortbarMin = sort(sortbar,'ascend');
-clear sortbarduouble
-sortbardouble = [sortbarMax sortbarMin];
-[row,column]   = size(sortbardouble);
-for i = 1:(column)/2
-    sortbar(i) = sortbardouble(i*2);
-end
-ratioL =  80 - sortbar;
+
+KidneysBestMinMax = BestMinMax(ratioK,0.2);
+LiverBestMinMax   = BestMinMax(ratioL,0.8);
 
 hold on
 set(gca,'ytick',[0,50,100],'FontSize', 70,'FontSmoothing','on','fontname','Arial')
-bar(X,[ratioK;ratioL],'FaceColor',colorGrey)
-errorbar(X,[20,80],[10,10], " k . ",'MarkerSize',8,'LineWidth',4);
+bar(X,[KidneysBestMinMax(1);20;LiverBestMinMax(1);80])
+errorbar(X,[KidneysBestMinMax(1);20;LiverBestMinMax(1);80],[KidneysBestMinMax(2),10,LiverBestMinMax(2),10], " k . ",'MarkerSize',8,'LineWidth',4);
 ylabel({'Contribution to EGP' ; '(%)'},'FontSmoothing','on');
 ylim([0 100])
 hold off
@@ -310,61 +293,18 @@ hold off
 % Fasting; U
 figure('Name', "glucose uptake organ", 'units', 'normalized', 'outerposition', [0 0 1 1])
 
-X = categorical({'Fat','Muscle','Brain','Liver'});
-X = reordercats(X,{'Fat','Muscle','Brain','Liver'});
+ X = categorical({'S Fat','D Fat','S Muscle','D Muscle','S Brain','D Brain','S Liver','D Liver'});
+ X = reordercats(X,{'S Fat','D Fat','S Muscle','D Muscle','S Brain','D Brain','S Liver','D Liver'});
 
-% Sort Ratio fat
-sortbar = 17.5 - ratio_f*100;
-sortbarMax = sort(sortbar,'descend');
-sortbarMin = sort(sortbar,'ascend');
-clear sortbarduouble
-sortbardouble = [sortbarMax sortbarMin];
-[row,column]   = size(sortbardouble);
-for i = 1:(column)/2
-    sortbar(i) = sortbardouble(i*2);
-end
-ratio_f =  17.5 - sortbar;
-
-% Sort Ratio muscle
-sortbar = 22.5 - ratio_m*100;
-sortbarMax = sort(sortbar,'descend');
-sortbarMin = sort(sortbar,'ascend');
-clear sortbarduouble
-sortbardouble = [sortbarMax sortbarMin];
-[row,column]   = size(sortbardouble);
-for i = 1:(column)/2
-    sortbar(i) = sortbardouble(i*2);
-end
-ratio_m =  22.5 - sortbar;
-
-% Sort Ratio brain
-sortbar = 40 - ratio_b*100;
-sortbarMax = sort(sortbar,'descend');
-sortbarMin = sort(sortbar,'ascend');
-clear sortbarduouble
-sortbardouble = [sortbarMax sortbarMin];
-[row,column]   = size(sortbardouble);
-for i = 1:(column)/2
-    sortbar(i) = sortbardouble(i*2);
-end
-ratio_b =  40 - sortbar;
-
-% Sort Ratio brain
-sortbar = 20 - ratio_l*100;
-sortbarMax = sort(sortbar,'descend');
-sortbarMin = sort(sortbar,'ascend');
-clear sortbarduouble
-sortbardouble = [sortbarMax sortbarMin];
-[row,column]   = size(sortbardouble);
-for i = 1:(column)/2
-    sortbar(i) = sortbardouble(i*2);
-end
-ratio_l =  20 - sortbar;
+FatBestMinMax     = BestMinMax(ratio_f,17.5/100);
+MuscleBestMinMax  = BestMinMax(ratio_m,22.5/100);
+BrainBestMinMax   = BestMinMax(ratio_b,40/100);
+LiverBestMinMax   = BestMinMax(ratio_l,20/100);
 
 hold on
 set(gca,'ytick',[0,50,100],'FontSize', 70,'FontSmoothing','on','fontname','Arial')
-bar(X,[ratio_f; ratio_m; ratio_b; ratio_l],'FaceColor',colorGrey);
-errorbar(X,[17.5,22.5, 40, 20],[7.5,7.5,7.5,7.5], " k . ",'MarkerSize',8,'LineWidth',4);
+bar(X,[[FatBestMinMax(1);17.5;MuscleBestMinMax(1);22.5;BrainBestMinMax(1);40;LiverBestMinMax(1);20]])
+errorbar(X,[FatBestMinMax(1);17.5;MuscleBestMinMax(1);22.5;BrainBestMinMax(1);40;LiverBestMinMax(1);20],[[FatBestMinMax(2);7.5;MuscleBestMinMax(2);7.5;BrainBestMinMax(2);7.5;LiverBestMinMax(2);7.5]], " k . ",'MarkerSize',8,'LineWidth',4);
 ylabel({'Organ specific glucose' ; 'uptake during fasting (%)'},'FontSmoothing','on');
 ylim([0 100])
 hold off
@@ -372,37 +312,16 @@ hold off
 %% Insulin clearance
 figure('Name', "Insulin clearance uptake organ", 'units', 'normalized', 'outerposition', [0 0 1 1])
 
-X = categorical({'Liver','Non liver'});
-X = reordercats(X,{'Liver','Non liver'});
+X = categorical({'S Liver','D Liver','S Non-Liver','D Non-Liver'});
+X = reordercats(X,{'S Liver','D Liver','S Non-Liver','D Non-Liver'});
 
-% Sort Ratio Liver
-sortbar = 65 - ratioLiver*100;
-sortbarMax = sort(sortbar,'descend');
-sortbarMin = sort(sortbar,'ascend');
-clear sortbarduouble
-sortbardouble = [sortbarMax sortbarMin];
-[row,column]   = size(sortbardouble);
-for i = 1:(column)/2
-    sortbar(i) = sortbardouble(i*2);
-end
-ratioLiver =  65 - sortbar;
-
-% Sort Ratio Liver
-sortbar = 25 - ratioBlood*100;
-sortbarMax = sort(sortbar,'descend');
-sortbarMin = sort(sortbar,'ascend');
-clear sortbarduouble
-sortbardouble = [sortbarMax sortbarMin];
-[row,column]   = size(sortbardouble);
-for i = 1:(column)/2
-    sortbar(i) = sortbardouble(i*2);
-end
-ratioBlood =  25 - sortbar;
+LiverBestMinMax     = BestMinMax(ratioLiver,65/100);
+BloodBestMinMax  = BestMinMax(ratioBlood,25/100);
 
 hold on
 set(gca,'ytick',[0,50,100],'FontSize', 70,'FontSmoothing','on','fontname','Arial')
-bar(X,[ratioLiver; ratioBlood],'FaceColor',colorGrey);
-errorbar(X,[65,25],[10,10], " k . ",'MarkerSize',8,'LineWidth',4);
+bar(X,[LiverBestMinMax(1); 65 ; BloodBestMinMax(1);25]);
+errorbar(X,[LiverBestMinMax(1); 65 ; BloodBestMinMax(1);25],[LiverBestMinMax(2); 10 ; BloodBestMinMax(2);10], " k . ",'MarkerSize',8,'LineWidth',4);
 ylabel({'Insulin clearance' ; '(%)'},'FontSmoothing','on');
 ylim([0 100])
 hold off
