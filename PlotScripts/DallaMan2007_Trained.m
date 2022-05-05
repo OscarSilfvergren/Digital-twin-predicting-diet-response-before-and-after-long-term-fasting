@@ -272,12 +272,8 @@ end
 % EGP vs kidneys
 figure('Name', "EGP vs kidney", 'units', 'normalized', 'outerposition', [0 0 1 1])
 
-% X = categorical({'Sim Kidneys','Data Kidneys','Sim Liver','Data Liver'});
-% X = reordercats(X,{'Sim Kidneys','Data Kidneys','Sim Liver','Data Liver'});
-
-X = categorical({'Sim 1','Data 1','Sim 2','Data 2'});
-X = reordercats(X,{'Sim 1','Data 1','Sim 2','Data 2'});
-
+ X = categorical({'Sim Kidneys','Data Kidneys','Sim Liver','Data Liver'});
+ X = reordercats(X,{'Sim Kidneys','Data Kidneys','Sim Liver','Data Liver'});
 
 KidneysBestMinMax = BestMinMax(ratioK,0.2);
 LiverBestMinMax   = BestMinMax(ratioL,0.8);
@@ -293,8 +289,8 @@ hold off
 % Fasting; U
 figure('Name', "glucose uptake organ", 'units', 'normalized', 'outerposition', [0 0 1 1])
 
- X = categorical({'S Fat','D Fat','S Muscle','D Muscle','S Brain','D Brain','S Liver','D Liver'});
- X = reordercats(X,{'S Fat','D Fat','S Muscle','D Muscle','S Brain','D Brain','S Liver','D Liver'});
+ X = categorical({'Sim Fat','Data Fat','Sim Muscle','Data Muscle','Sim Brain','Data Brain','Sim Liver','Data Liver'});
+ X = reordercats(X,{'Sim Fat','Data Fat','Sim Muscle','Data Muscle','Sim Brain','Data Brain','Sim Liver','Data Liver'});
 
 FatBestMinMax     = BestMinMax(ratio_f,17.5/100);
 MuscleBestMinMax  = BestMinMax(ratio_m,22.5/100);
@@ -312,8 +308,8 @@ hold off
 %% Insulin clearance
 figure('Name', "Insulin clearance uptake organ", 'units', 'normalized', 'outerposition', [0 0 1 1])
 
-X = categorical({'S Liver','D Liver','S Non-Liver','D Non-Liver'});
-X = reordercats(X,{'S Liver','D Liver','S Non-Liver','D Non-Liver'});
+X = categorical({'Sim Liver','Data Liver','Sim Non-Liver','Data Non-Liver'});
+X = reordercats(X,{'Sim Liver','Data Liver','Sim Non-Liver','Data Non-Liver'});
 
 LiverBestMinMax     = BestMinMax(ratioLiver,65/100);
 BloodBestMinMax  = BestMinMax(ratioBlood,25/100);

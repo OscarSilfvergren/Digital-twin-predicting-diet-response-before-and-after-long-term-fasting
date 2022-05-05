@@ -13,23 +13,9 @@ model = str2func(modelName);
 % Remove "%" sign before plot script and press "run" above to run code.
 %% Plot figures from article
 
-%  Figure2   % Plot takes about 40 sec
-%  Figure3   % Plot takes about 70 sec
-%  Figure4   % Plot takes about 80 sec
-%  Figure5   % Plot takes about 25 sec
-%  Figure6   % plot takes about 50 sec
-%  Figure7   % plot takes about 30 sec
-
-%%
-%% Model estimation optimization
-
-% ModelEstimationHealthy_Optimization
-% ModelEstimationT2DM_Optimization
-% OptimizeDallaManOld
-
-%% Model prediction calibration
-
-% Rothman1991_Calibration
-% Firth1986_Calibration
-% Taylor1996_Calibration
-% Silfvergren2021_Calibration
+%  Figure2   % Plot takes about 30 sec
+%  Figure3   % Plot takes about 50 sec
+%  Figure4   % Plot takes about 60 sec
+%  Figure5   % Plot takes about 20 sec
+%  Figure6   % plot takes about 35 sec
+%  Figure7   % plot takes about 20 sec

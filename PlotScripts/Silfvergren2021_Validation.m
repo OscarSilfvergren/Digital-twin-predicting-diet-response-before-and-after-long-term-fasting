@@ -42,8 +42,6 @@ for i = 1:row
     end
     
     if i == 1
-        maxG1 = sim.variablevalues(:,ismember(sim.variables,'G'))/18;
-        minG1 = sim.variablevalues(:,ismember(sim.variables,'G'))/18;
         maxG2 = sim.variablevalues(:,ismember(sim.variables,'G'))/18;
         minG2 = sim.variablevalues(:,ismember(sim.variables,'G'))/18;
     else
@@ -52,18 +50,6 @@ for i = 1:row
         maxG2 = max(maxG2,maxG1);
         minG2 = min(minG2,minG1);
     end
-    
-        if i == 1
-        maxPT1 = sim.reactionvalues(:,ismember(sim.reactions,'PyruvateTranslocase'));
-        minPT1 = sim.reactionvalues(:,ismember(sim.reactions,'PyruvateTranslocase'));
-        maxPT2 = sim.reactionvalues(:,ismember(sim.reactions,'PyruvateTranslocase'));
-        minPT2 = sim.reactionvalues(:,ismember(sim.reactions,'PyruvateTranslocase'));
-    else
-        maxPT1 = sim.reactionvalues(:,ismember(sim.reactions,'PyruvateTranslocase'));
-        minPT1 = sim.reactionvalues(:,ismember(sim.reactions,'PyruvateTranslocase'));
-        maxPT2 = max(maxPT2,maxPT1);
-        minPT2 = min(minPT2,minPT1);
-        end
     
 end
 
@@ -83,19 +69,6 @@ ylabel({'Plasma glucose' ; '(mM)'},'FontSmoothing','on','fontname','Arial');
 xlabel("Time (days)",'FontSmoothing','on','fontname','Arial');
 xlim([0 2])
 ylim([3 6])
-hold off
-
-figure('Name', "PyruvateTranslocase 1", 'units', 'normalized', 'outerposition', [0 0 1 1])
-hold on
-a = gca;
-set(a,'xtick',[0,1,2],'ytick',[5,10,15],'FontSize', 65,'fontname','Arial')
-yP1    = [maxPT2', fliplr(minPT2')];
-fill(time2/1440-5.33,yP1*1000,'b','FaceAlpha',0.2,'EdgeAlpha',0);
-plot(time/1440-5.33, simBest.reactionvalues(:,ismember(simBest.reactions,'PyruvateTranslocase'))*1000,'b-.','LineWidth',LineWidthValue);
-ylabel({'Pyruvate from body' ; 'into liver (ug/kg/min)'},'FontSmoothing','on','fontname','Arial');
-xlabel("Time (days)",'FontSmoothing','on','fontname','Arial');
-xlim([-0.1 2.5])
-ylim([5 15])
 hold off
 
 %% P2
@@ -131,8 +104,6 @@ for i = 1:row
     end
     
     if i == 1
-        maxG1 = sim.variablevalues(:,ismember(sim.variables,'G'))/18;
-        minG1 = sim.variablevalues(:,ismember(sim.variables,'G'))/18;
         maxG2 = sim.variablevalues(:,ismember(sim.variables,'G'))/18;
         minG2 = sim.variablevalues(:,ismember(sim.variables,'G'))/18;
     else
@@ -141,17 +112,7 @@ for i = 1:row
         maxG2 = max(maxG2,maxG1);
         minG2 = min(minG2,minG1);
     end
-            if i == 1
-        maxPT1 = sim.reactionvalues(:,ismember(sim.reactions,'PyruvateTranslocase'));
-        minPT1 = sim.reactionvalues(:,ismember(sim.reactions,'PyruvateTranslocase'));
-        maxPT2 = sim.reactionvalues(:,ismember(sim.reactions,'PyruvateTranslocase'));
-        minPT2 = sim.reactionvalues(:,ismember(sim.reactions,'PyruvateTranslocase'));
-    else
-        maxPT1 = sim.reactionvalues(:,ismember(sim.reactions,'PyruvateTranslocase'));
-        minPT1 = sim.reactionvalues(:,ismember(sim.reactions,'PyruvateTranslocase'));
-        maxPT2 = max(maxPT2,maxPT1);
-        minPT2 = min(minPT2,minPT1);
-            end
+
 end
 MaxP2 = maxG2;
 MinP2 = minG2;
@@ -170,19 +131,6 @@ ylabel({'Plasma glucose' ; '(mM)'},'FontSmoothing','on','fontname','Arial');
 xlabel("Time (days)",'FontSmoothing','on','fontname','Arial');
 xlim([0 2])
 ylim([3 6])
-hold off
-
-figure('Name', "PyruvateTranslocase 2", 'units', 'normalized', 'outerposition', [0 0 1 1])
-hold on
-a = gca;
-set(a,'xtick',[0,1,2],'ytick',[5,10,15],'FontSize', 65,'fontname','Arial')
-yP1    = [maxPT2', fliplr(minPT2')];
-fill(time2/1440-5.33,yP1*1000,'b','FaceAlpha',0.2,'EdgeAlpha',0);
-plot(time/1440-5.33, simBest.reactionvalues(:,ismember(simBest.reactions,'PyruvateTranslocase'))*1000,'b-.','LineWidth',LineWidthValue);
-ylabel({'Pyruvate from body' ; 'into liver (ug/kg/min)'},'FontSmoothing','on','fontname','Arial');
-xlabel("Time (days)",'FontSmoothing','on','fontname','Arial');
-xlim([-0.1 2.5])
-ylim([5 15])
 hold off
 
 %% Meals
@@ -226,7 +174,7 @@ for i = 1:row
         maxG2 = max(maxG2,maxG1);
         minG2 = min(minG2,minG1);
     end
-
+    
 end
 MaxP1 = maxG2;
 MinP1 = minG2;
@@ -357,19 +305,7 @@ for i = 1:row
         maxG2 = max(maxG2,maxG1);
         minG2 = min(minG2,minG1);
     end
-    
-                if i == 1
-        maxGNG1 = sim.reactionvalues(:,ismember(sim.reactions,'Gluconeogenesis'));
-        minGNG1 = sim.reactionvalues(:,ismember(sim.reactions,'Gluconeogenesis'));
-        maxGNG2 = sim.reactionvalues(:,ismember(sim.reactions,'Gluconeogenesis'));
-        minGNG2 = sim.reactionvalues(:,ismember(sim.reactions,'Gluconeogenesis'));
-    else
-        maxGNG1 = sim.reactionvalues(:,ismember(sim.reactions,'Gluconeogenesis'));
-        minGNG1 = sim.reactionvalues(:,ismember(sim.reactions,'Gluconeogenesis'));
-        maxGNG2 = max(maxGNG2,maxGNG1);
-        minGNG2 = min(minGNG2,minGNG1);
-            end
-    
+      
 end
 MaxP1 = maxG2;
 MinP1 = minG2;
@@ -391,18 +327,6 @@ xlim([-0.1 4])
 ylim([2, 6])
 hold off
 
-figure('Name', "GNG unfed p1", 'units', 'normalized', 'outerposition', [0 0 1 1])
-hold on
-a = gca;
-set(a,'xtick',[0,1,2],'ytick',[0,0.5,1],'FontSize', 65,'fontname','Arial')
-yP1    = [minGNG2', fliplr(maxGNG2')];
-fill(time2/1440-5.33,yP1,'b','FaceAlpha',0.2,'EdgeAlpha',0);
-line([0 0.05], [0 0],'Color','k','LineWidth',12);
-line([2 2.05], [0 0],'Color','k','LineWidth',12);
-plot(time/1440-5.33, simBest.reactionvalues(:,ismember(simBest.reactions,'Gluconeogenesis')),'b-.','LineWidth',LineWidthValue);
-ylabel({'Gluconeogenesis' ; '(mg/kg/min)'},'FontSmoothing','on','fontname','Arial');
-xlabel("Time (days)",'FontSmoothing','on','fontname','Arial');
-xlim([-0.1 2.5])
 
 %% unfed p2
 load('Silfvergren2021_ParamP2unfedCalibrated');
@@ -433,8 +357,6 @@ for i = 1:row
     end
     
     if i == 1
-        maxG1 = sim.variablevalues(:,ismember(sim.variables,'G'))/18;
-        minG1 = sim.variablevalues(:,ismember(sim.variables,'G'))/18;
         maxG2 = sim.variablevalues(:,ismember(sim.variables,'G'))/18;
         minG2 = sim.variablevalues(:,ismember(sim.variables,'G'))/18;
     else
@@ -444,9 +366,7 @@ for i = 1:row
         minG2 = min(minG2,minG1);
     end
     
-            if i == 1
-        maxGNG1 = sim.reactionvalues(:,ismember(sim.reactions,'Gluconeogenesis'));
-        minGNG1 = sim.reactionvalues(:,ismember(sim.reactions,'Gluconeogenesis'));
+    if i == 1
         maxGNG2 = sim.reactionvalues(:,ismember(sim.reactions,'Gluconeogenesis'));
         minGNG2 = sim.reactionvalues(:,ismember(sim.reactions,'Gluconeogenesis'));
     else
@@ -454,9 +374,51 @@ for i = 1:row
         minGNG1 = sim.reactionvalues(:,ismember(sim.reactions,'Gluconeogenesis'));
         maxGNG2 = max(maxGNG2,maxGNG1);
         minGNG2 = min(minGNG2,minGNG1);
-            end
+    end
+    
+    if i == 1
+        maxPT2 = sim.reactionvalues(:,ismember(sim.reactions,'PyruvateTranslocase'));
+        minPT2 = sim.reactionvalues(:,ismember(sim.reactions,'PyruvateTranslocase'));
+    else
+        maxPT1 = sim.reactionvalues(:,ismember(sim.reactions,'PyruvateTranslocase'));
+        minPT1 = sim.reactionvalues(:,ismember(sim.reactions,'PyruvateTranslocase'));
+        maxPT2 = max(maxPT2,maxPT1);
+        minPT2 = min(minPT2,minPT1);
+    end
+    
+    if i == 1
+        maxaaLiver2 = sim.reactionvalues(:,ismember(sim.reactions,'aaIntoLiver_Meal'));
+        minaaLiver2 = sim.reactionvalues(:,ismember(sim.reactions,'aaIntoLiver_Meal'));
+    else
+        maxaaLiver1 = sim.reactionvalues(:,ismember(sim.reactions,'aaIntoLiver_Meal'));
+        minaaLiver1 = sim.reactionvalues(:,ismember(sim.reactions,'aaIntoLiver_Meal'));
+        maxaaLiver2 = max(maxaaLiver2,maxaaLiver1);
+        minaaLiver2 = min(minaaLiver2,minaaLiver1);
+    end
+    
+    if i == 1
+        maxaaTransportation2 = sim.reactionvalues(:,ismember(sim.reactions,'aaTransportation'));
+        minaaTransportation2 = sim.reactionvalues(:,ismember(sim.reactions,'aaTransportation'));
+    else
+        maxaaTransportation1 = sim.reactionvalues(:,ismember(sim.reactions,'aaTransportation'));
+        minaaTransportation1 = sim.reactionvalues(:,ismember(sim.reactions,'aaTransportation'));
+        maxaaTransportation2 = max(maxaaTransportation2,maxaaTransportation1);
+        minaaTransportation2 = min(minaaTransportation2,minaaTransportation1);
+    end
+    
+        if i == 1
+        maxProteinDigestion2 = sim.reactionvalues(:,ismember(sim.reactions,'ProteinDigestion'));
+        minProteinDigestion2 = sim.reactionvalues(:,ismember(sim.reactions,'ProteinDigestion'));
+    else
+        maxProteinDigestion1 = sim.reactionvalues(:,ismember(sim.reactions,'ProteinDigestion'));
+        minProteinDigestion1 = sim.reactionvalues(:,ismember(sim.reactions,'ProteinDigestion'));
+        maxProteinDigestion2 = max(maxProteinDigestion2,maxProteinDigestion1);
+        minProteinDigestion2 = min(minProteinDigestion2,minProteinDigestion1);
+    end
+    
     
 end
+
 MaxP1 = maxG2;
 MinP1 = minG2;
 
@@ -480,14 +442,62 @@ hold off
 figure('Name', "GNG unfed p2", 'units', 'normalized', 'outerposition', [0 0 1 1])
 hold on
 a = gca;
-set(a,'xtick',[0,1,2],'ytick',[0,0.5,1],'FontSize', 65,'fontname','Arial')
+set(a,'xtick',[0,1,2],'ytick',[0.2,0.6,1],'FontSize', 65,'fontname','Arial')
 yP1    = [minGNG2', fliplr(maxGNG2')];
 fill(time2/1440-5.33,yP1,'b','FaceAlpha',0.2,'EdgeAlpha',0);
-line([0 0.05], [0 0],'Color','k','LineWidth',12);
-line([2 2.05], [0 0],'Color','k','LineWidth',12);
+line([0 0.05], [0.2 0.2],'Color','k','LineWidth',12);
+line([2 2.05], [0.2 0.2],'Color','k','LineWidth',12);
 plot(time/1440-5.33, simBest.reactionvalues(:,ismember(simBest.reactions,'Gluconeogenesis')),'b-.','LineWidth',LineWidthValue);
 ylabel({'Gluconeogenesis' ; '(mg/kg/min)'},'FontSmoothing','on','fontname','Arial');
 xlabel("Time (days)",'FontSmoothing','on','fontname','Arial');
 xlim([-0.1 2.5])
-ylim([0 1])
+ylim([0.2 1])
+hold off
+
+figure('Name', "PyruvateTranslocase", 'units', 'normalized', 'outerposition', [0 0 1 1])
+hold on
+a = gca;
+set(a,'xtick',[0,1,2],'ytick',[8,9,10],'FontSize', 65,'fontname','Arial')
+yP1    = [maxPT2', fliplr(minPT2')];
+fill(time2/1440-5.33,yP1*1000,'b','FaceAlpha',0.2,'EdgeAlpha',0);
+line([0 0.05], [8 8],'Color','k','LineWidth',12);
+line([2 2.05], [8 8],'Color','k','LineWidth',12);
+plot(time/1440-5.33, simBest.reactionvalues(:,ismember(simBest.reactions,'PyruvateTranslocase'))*1000,'b-.','LineWidth',LineWidthValue);
+ylabel({'Pyruvate from body' ; 'into liver (ug/kg/min)'},'FontSmoothing','on','fontname','Arial');
+xlabel("Time (days)",'FontSmoothing','on','fontname','Arial');
+xlim([-0.1 2.5])
+ylim([8 10])
+hold off
+
+figure('Name', "digested AA ratio", 'units', 'normalized', 'outerposition', [0 0 1 1])
+hold on
+a = gca;
+set(a,'xtick',[0,1,2],'ytick',[0,50,100],'FontSize', 55,'fontname','Arial')
+minRatio  = minaaLiver2./minaaTransportation2;
+maxRatio  = maxaaLiver2./maxaaTransportation2;
+bestRatio = sim.reactionvalues(:,ismember(sim.reactions,'aaIntoLiver_Meal'))./sim.reactionvalues(:,ismember(sim.reactions,'aaTransportation'));
+yP1    = [minRatio', fliplr(maxRatio')];
+fill(time2(2:end-1)/1440-5.33,yP1(2:end-1)*100,'b','FaceAlpha',0.2,'EdgeAlpha',0);
+plot(time(2:end-1)/1440-5.33, bestRatio(2:end-1)*100,'b-.','LineWidth',LineWidthValue);
+line([0 0.05], [0 0],'Color','k','LineWidth',12);
+line([2 2.05], [0 0],'Color','k','LineWidth',12);
+ylabel({'Amino acids catabolized' ; 'into TCA or pyruvate (%)'},'FontSmoothing','on','fontname','Arial');
+xlabel("Time (days)",'FontSmoothing','on','fontname','Arial');
+xlim([-0.1 2.5])
+ylim([0 100])
+hold off
+
+figure('Name', "Digestion of protein into AA", 'units', 'normalized', 'outerposition', [0 0 1 1])
+hold on
+a = gca;
+set(a,'xtick',[0,1,2],'ytick',[0,1.5,3],'FontSize', 50,'fontname','Arial')
+yP1    = [maxProteinDigestion2', fliplr(minProteinDigestion2')];
+fill(time2/1440-5.33,yP1,'b','FaceAlpha',0.2,'EdgeAlpha',0);
+line([0 0.05], [0 0],'Color','k','LineWidth',12);
+line([2 2.05], [0 0],'Color','k','LineWidth',12);
+plot(time/1440-5.33, sim.reactionvalues(:,ismember(sim.reactions,'ProteinDigestion')),'b-.','LineWidth',LineWidthValue);
+ylabel({'Release of amino acids from' ; 'ingested protein(mg/kg/min)'},'FontSmoothing','on','fontname','Arial');
+xlabel("Time (days)",'FontSmoothing','on','fontname','Arial');
+xlim([-0.1 2.5])
+ylim([0 3])
 hold off
