@@ -1,0 +1,176 @@
+********** MODEL NAME
+SimpleHepaticMetabolism
+
+********** MODEL NOTES
+********** MODEL STATES
+d/dt(Qsto1)           = (Meal_CarbohydratesFlow*meal_solid)                 - (Qsto1ToQsto2)
+d/dt(Qsto2)           = (Meal_CarbohydratesFlow*meal_liquid + Qsto1ToQsto2) - (Qsto2ToQgut)
+d/dt(Qgut)            = (Qsto2ToQgut)                                       - (Qgut_out)
+d/dt(Intestines_Protein) = (Meal_ProteinFlow/BW_start)                      - (ProteinDigestion)
+d/dt(Intestines_aa)      = (ProteinDigestion)                               - (aaTransportation)
+
+d/dt(Gp) = (Ra + GtToGp)        - (U_ii + GpToGt)
+d/dt(Gt) = (GpToGt + EGP)       - (U_idf + U_idm + GtToGp + U_il)
+
+d/dt(Gl)          = (U_il + Glycogenolysis + Gluconeogenesis)                    - (EGP_Liver + Glycogenesis + Glycolysis)
+d/dt(Gly_L)       = (Glycogenesis)                                               - (Glycogenolysis)
+d/dt(Pyruvate_L)  = (aaIntoPyruvate_Meal + Glycolysis + PyruvateTranslocase)     - ( PyruvateOxi_L)
+d/dt(CrebCycle_L) = (aaIntoCrebCyle_Meal + PyruvateOxi_L)                        - (Gluconeogenesis + CrebUsage)
+
+d/dt(Ipo) = (S_po)              - (S)
+d/dt(Il)  = (S + IpToIl)        - (IlToIp + InsulinDegradation_Liver)
+d/dt(Ip)  = (IlToIp)            - (IpToIl + InsulinDegradation_Blood)
+
+d/dt(InsulinStabilization)             = InsulinStabilizationDelay
+d/dt(It)                               = InsulinToTissueDelay
+
+Qsto1(0)        = 1e-50
+Gly_L(0)        = 1500
+
+********** MODEL PARAMETERS
+k_gri = 52.9415994061694
+k_min = 0.000148950603624885
+k_max = 0.00663360171972480
+b     = 69.6886722495413
+d     = 0.0257099666859910
+k_abs = 0.0348191995779094
+ProteinBreakdown   = 0.00128504099976599
+aaTransportation_k = 2.67641999999523
+
+f     = 0.800000176366274
+k_1   = 0.0460219179880963
+U_ii  = 0.766261649526384
+m_2   = 0.285627899999946
+m_4   = 0.00969491608226903
+K     = 179.958328862496
+S_b   = 3.07765154584360e-05
+gamma = 8273.37282915844
+
+K_m0 = 17.0019623971098
+V_m0 = 2.35561136691388
+V_mX = 0.0506898520649067
+K_f0 = 84.1466532267435
+V_f0 = 0.00168562333333897
+V_fX = 0.245004517990764
+GLUT2_diffusionMax = 6.35672990776367
+GLUT2_diffusion0   = 1.72459793363864
+Uidl_diffusionMax  = 0.229782134299738
+Uidl_diffusion0    = 1.10648381403843
+EGP_KidneysK       = 0.761480995110005
+
+k_2         = 0.910039937816065
+It_delay_k  = 1.24625502974295
+G_b         = 30.3364075076953
+V_glyBmax   = 1.18021448238202
+GlyB        = 1.75152492582083
+V_glySmax   = 1.67014287895493
+GlyS        = 1.98335948854724
+CrebUsage_K = 0.00164895599927419
+Gluconeogenesis_CrebK     = 0.485880000000000
+PyruvateTranslocase_K     = 0.000385551308862550
+PyruvateOxi_k             = 0.00202327333333544
+Aminoprofile_k            = 0.949971801771205
+Glycolysis_k              = 0.362847030988974
+
+m_1 = 0.329098230001995
+m_5 = 1.03585337853596
+m_6 = 0.502018455732839
+alpha = 3.18129631836220
+beta  = 0.0184522669680327
+InsulinLiverResponseK  = 1.14584105212747
+GlyDep_Meal            = 388.316622751153
+GlyDep_TCA             = 46.9919143026883
+GlyDep_Glugoneogenesis = 2657.88668680817
+GlyDep_KidneysEGP      = 0.0932333671168213
+GlyDepEXP_Meal            = 3.00000028693940
+GlyDepEXP_TCA             = 1.09999242939599
+GlyDepEXP_Glugoneogenesis = 0.100546303483149
+GlyDepEXP_KidneysEGP      = 0.134365727125936
+
+BloodVolumeUncertainty    = 0.768339769907655
+BloodLiverUncerteinty     = 0.700000000006868
+
+Meal_ProteinFlow        = 105.909574177772 %Input: Protein mg/min
+Meal_CarbohydratesFlow  = 94.3488002607310 %Input: Carbohydrate mg/min
+meal_solid     = 1                         %Input: if meal solid set to 1 else 0
+meal_liquid    = 0                         %Input: if meal liquid set to 1 else 0
+D              = 0                         %Input: Set to mg of last carbohydrate input
+female_boolean = 0                         %Input: if female set to 1 else 0
+male_boolean   = 1                         %Input: if male set to 1 else 0
+Height         = 180                       %Input: cm
+BW_start       = 80                        %Input: kg
+
+********** MODEL VARIABLES
+VolumeBloodPeripheral = ((0.3669*(Height/100)^3 + 0.03219*BW_start + 0.6041)*male_boolean + (0.3561*(Height/100)^3 + 0.03308*BW_start + 0.1833)*female_boolean)*BloodVolumeUncertainty
+VolumeBloodLiver   = VolumeBloodPeripheral*0.13*BloodLiverUncerteinty
+
+Glycogen_liver = Gly_L*BW_start/(VolumeBloodLiver*666.6)
+I              = Ip*(BW_start/(VolumeBloodPeripheral))
+G              = Gp*BW_start/(VolumeBloodPeripheral*10)
+
+GlyDep_Meal_p                  = (Glycogen_liver/GlyDep_Meal)^GlyDepEXP_Meal
+GlyDep_Meal_n                  = (GlyDep_Meal/Glycogen_liver)^GlyDepEXP_Meal
+GlyDep_TCA_p                   = (Glycogen_liver/GlyDep_TCA)^GlyDepEXP_TCA
+GlyDep_Gluconeogenesis_n       = (GlyDep_Glugoneogenesis/Glycogen_liver)^GlyDepEXP_Glugoneogenesis
+GlyDep_KidneysEGP_n            = (GlyDep_KidneysEGP/Glycogen_liver)^GlyDepEXP_KidneysEGP
+
+********** MODEL REACTIONS
+Q_sto         = Qsto1 + Qsto2
+aa            = 5/2/(1-b)/D
+cc            = 5/2/d/D
+k_empt        = k_min+(k_max-k_min)/2 *(tanh(aa*(Q_sto-b*D))-tanh(cc*(Q_sto-d*D))+2)
+
+Qsto1ToQsto2     = k_gri*Qsto1
+Qsto2ToQgut      = k_empt*Qsto2
+Qgut_out         = k_abs*Qgut
+ProteinDigestion = ProteinBreakdown    * Intestines_Protein 
+aaIntoCrebCyle_Meal = (1-Aminoprofile_k)  * aaTransportation_k     * Intestines_aa    * GlyDep_Meal_n
+aaIntoPyruvate_Meal = Aminoprofile_k      * aaTransportation_k     * Intestines_aa    * GlyDep_Meal_n
+aaIntoLiver_Meal    = aaIntoPyruvate_Meal + aaIntoCrebCyle_Meal 
+aaIntoBody_Meal     = aaTransportation_k  * Intestines_aa          * GlyDep_Meal_p
+aaTransportation    = aaIntoLiver_Meal    + aaIntoBody_Meal
+
+Ra      = f*k_abs*Qgut/BW_start
+GtToGp  = k_2*Gt
+GpToGt  = k_1*Gp
+
+U_il        = (Uidl_diffusionMax*Gt)/(Uidl_diffusion0+Gt)
+EGP_Liver   = (GLUT2_diffusionMax*Gl)/(GLUT2_diffusion0+Gl)
+EGP_Kidneys = EGP_KidneysK * GlyDep_KidneysEGP_n
+EGP         = EGP_Liver + EGP_Kidneys
+
+LiverInsulinResponse       = 1+(Il*InsulinLiverResponseK)
+InsulinResponseU           = 1+It
+
+V_mmax     = V_m0+(V_mX*InsulinResponseU)
+V_fmax     = V_f0+(V_fX*InsulinResponseU)
+U_idm      = (V_mmax*Gt/(K_m0+Gt))
+U_idf      = (V_fmax*Gt/(K_f0+Gt))
+U_ii_print = U_ii
+U          = U_il + U_idm + U_idf + U_ii_print
+
+Glycogenesis        = (V_glySmax*Gl)/(GlyS+Gl)*LiverInsulinResponse
+Glycogenolysis      = (V_glyBmax*Gly_L)/(GlyB+Gly_L)
+Gluconeogenesis     = CrebCycle_L       * Gluconeogenesis_CrebK  * GlyDep_Gluconeogenesis_n
+Glycolysis          = Glycolysis_k      * Gl                     * LiverInsulinResponse
+CrebUsage           = CrebCycle_L * CrebUsage_K  * GlyDep_TCA_p
+PyruvateOxi_L       = Pyruvate_L * PyruvateOxi_k
+PyruvateTranslocase = PyruvateTranslocase_K * GlyDep_KidneysEGP_n
+
+ChangeInGlucose       = (K/180.16)*((Ra + GtToGp) - (U_ii + GpToGt))
+S_po                  = max(0,ChangeInGlucose + InsulinStabilization + S_b)
+S      = gamma*Ipo
+IlToIp = m_1*Il
+IpToIl = m_2*Ip
+
+HE     = max(0,(-m_5*S)+m_6)
+m_3    = HE*m_1/(1-HE)
+InsulinDegradation_Liver = m_3*Il
+InsulinDegradation_Blood = m_4*Ip
+
+InsulinStabilizationDelay    = (alpha/180.16)*((beta*(Gp-G_b))- InsulinStabilization)
+InsulinToTissueDelay         = It_delay_k*(I-It)
+
+********** MODEL FUNCTIONS
+********** MODEL EVENTS
+********** MODEL MATLAB FUNCTIONS
