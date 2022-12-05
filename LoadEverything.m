@@ -1,3 +1,8 @@
+clear
+close all
+clc
+format longG
+
 addpath('Costfunctions')
 addpath('Data')
 addpath('Models')
@@ -26,7 +31,7 @@ load('ModelValidationHealthy_params');
 load('Silfvergren2021Everyday_data');
 load('OptimizeDallaManOld_params');
 
-options2 = optimoptions(@particleswarm,'PlotFcn','pswplotbestf');
+options2 = optimoptions(@particleswarm,'PlotFcn','pswplotbestf','UseParallel', true,'UseVectorized', false);
 time = linspace(0,12500,12501);
 pic_count = 1;
 
@@ -44,3 +49,8 @@ if ~exist('IQMsimulate','file')
     choice = input('press enter to continue and compile the toolbox.');
     run('./IQMtools/installIQMtoolsInitial.m')
 end
+
+modelName = 'ModelSimpleMetabolismSteadyState';
+model = IQMmodel([modelName '.txt']);
+IQMmakeMEXmodel(model);
+model = str2func(modelName);

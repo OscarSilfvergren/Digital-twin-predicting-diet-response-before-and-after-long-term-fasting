@@ -4,7 +4,7 @@ modelName = 'ModelSimpleMetabolismFast';
 model = IQMmodel([modelName '.txt']);
 IQMmakeMEXmodel(model);
 model = str2func(modelName);
-options2 = optimoptions(@particleswarm,'PlotFcn','pswplotbestf','MaxStallIterations',7);
+options2 = optimoptions(@particleswarm,'PlotFcn','pswplotbestf','MaxStallIterations',7,'FunctionTolerance',1.0e-1,'UseParallel', true,'UseVectorized', false);
 
 time = linspace(0,11500,11501);
 params = ModelStartGuess(1:80);
@@ -17,22 +17,24 @@ OptimizedParamsSorted = sortrows(ModelValidationHealthyA,column);
 clear Silfvergren2021_ParamHealthyCalibratedp1
 clear Silfvergren2021_ParamHealthyCalibratedp2
 
+FedState = 1;
+
 for i = 1:row
     
     optimizedParamTemp = OptimizedParamsSorted(i,1:(column-1));
     
     lb(1:80)   = log(optimizedParamTemp(1:80));
     ub(1:80)   = log(optimizedParamTemp(1:80));
-
+    
     [lb,ub] = DifferentPopulationCalibration(lb,ub,ParameterBounds);
     lb(75:80)  = log(ParameterBounds.LowerBoundHealthy(75:80));
     ub(75:80)  = log(ParameterBounds.UpperBoundHealthy(75:80));
     
     % P1
-    body_information = [1 , 0, 178, 84 ];  % female, male, height, weight
+    body_information  = [0 , 1, 179, 87 ];  % female, male, height, weight
     meal_information = [1, 0, 0, 0];
     
-    func =@(params)Silfvergren2021_costfunction(Silfvergren2021_data.p1_glucoseCalibrated,Silfvergren2021_data.time,time,params,modelName,body_information,meal_information,3);
+    func =@(params)Silfvergren2021_costfunction(Silfvergren2021_data.p1_glucoseCalibrated,Silfvergren2021_data.time,FedState,time,params,modelName,body_information,meal_information,3);
     [Silfvergren2021_ParamHealthy, minCostPS] = particleswarm(func, length(lb), lb, ub, options2);
     Silfvergren2021_ParamHealthy = exp(Silfvergren2021_ParamHealthy);
     Silfvergren2021_ParamHealthy = AssignParameter(Silfvergren2021_ParamHealthy, body_information, meal_information);
@@ -40,10 +42,10 @@ for i = 1:row
     Silfvergren2021_ParamHealthyCalibratedp1(i,:) = Silfvergren2021_ParamHealthy;
     
     % P2
-    body_information = [0 , 1, 180, 87 ];  % female, male, height, weight
+    body_information = [0 , 1, 178, 80 ];  % female, male, height, weight
     meal_information = [1, 0, 0, 0];
     
-    func =@(params)Silfvergren2021_costfunction(Silfvergren2021_data.p2_glucose,Silfvergren2021_data.time,time,params,modelName,body_information,meal_information,4);
+    func =@(params)Silfvergren2021_costfunction(Silfvergren2021_data.p2_glucose,Silfvergren2021_data.time,FedState,time,params,modelName,body_information,meal_information,4);
     [Silfvergren2021_ParamHealthy, minCostPS] = particleswarm(func, length(lb), lb, ub, options2);
     Silfvergren2021_ParamHealthy = exp(Silfvergren2021_ParamHealthy);
     Silfvergren2021_ParamHealthy = AssignParameter(Silfvergren2021_ParamHealthy, body_information, meal_information);
@@ -53,7 +55,7 @@ for i = 1:row
     i = i
 end
 
-% Save best Param
+Save best Param
 Silfvergren2021_ParamHealthyCalibratedp1 = sortrows(Silfvergren2021_ParamHealthyCalibratedp1,column);
 save(['Silfvergren2021_ParamHealthyCalibratedp1' datestr(now, 'yymmdd-HHMMSS')],'Silfvergren2021_ParamHealthyCalibratedp1');
 
@@ -70,16 +72,17 @@ for i = 1:row
     
     lb(1:80)   = log(optimizedParamTemp(1:80));
     ub(1:80)   = log(optimizedParamTemp(1:80));
-
+    
     [lb,ub] = DifferentPopulationCalibration(lb,ub,ParameterBounds);
     lb(75:80)  = log(ParameterBounds.LowerBoundHealthy(75:80));
     ub(75:80)  = log(ParameterBounds.UpperBoundHealthy(75:80));
     
-    body_information = [1 , 0, 178, 84 ];  % female, male, height, weight
-    meal_information = [3, 0, 2.6, 25.55];
+    body_information  = [0 , 1, 179, 87 ];  % female, male, height, weight
+    meal_information  = [3, 0, 2.6, 25.55];
     
     % fed
-    func =@(params)Silfvergren2021_costfunction(Silfvergren2021_data.value_fed_p1(1:24),Silfvergren2021_data.time_fed_p1(1:24),time,params,modelName,body_information,meal_information,2);
+    FedState = 1;
+    func =@(params)Silfvergren2021_costfunction(Silfvergren2021_data.value_fed_p1(1:24),Silfvergren2021_data.time_fed_p1(1:24),FedState,time,params,modelName,body_information,meal_information,2);
     [Silfvergren2021_ParamP1fed, minCostPS] = particleswarm(func, length(lb), lb, ub, options2);
     Silfvergren2021_ParamP1fed = exp(Silfvergren2021_ParamP1fed);
     Silfvergren2021_ParamP1fed = AssignParameter(Silfvergren2021_ParamP1fed, body_information, meal_information);
@@ -87,7 +90,8 @@ for i = 1:row
     Silfvergren2021_ParamP1fedCalibrated(i,:) = Silfvergren2021_ParamP1fed;
     
     % unfed
-    func =@(params)Silfvergren2021_costfunction(Silfvergren2021_data.Value_fasted_p1(1:60),Silfvergren2021_data.time_fastedStart_p1(1:59),time,params,modelName,body_information,meal_information,2);
+    FedState = 0;
+    func =@(params)Silfvergren2021_costfunction(Silfvergren2021_data.Value_fasted_p1(1:56),Silfvergren2021_data.time_fastedStart_p1(1:56),FedState,time,params,modelName,body_information,meal_information,2);
     [Silfvergren2021_ParamP1unfed, minCostPS] = particleswarm(func, length(lb), lb, ub, options2);
     Silfvergren2021_ParamP1unfed = exp(Silfvergren2021_ParamP1unfed);
     Silfvergren2021_ParamP1unfed = AssignParameter(Silfvergren2021_ParamP1unfed, body_information, meal_information);
@@ -113,16 +117,17 @@ for i = 1:row
     optimizedParamTemp = OptimizedParamsSorted(i,1:(column-1));
     lb(1:80)   = log(optimizedParamTemp(1:80));
     ub(1:80)   = log(optimizedParamTemp(1:80));
-
+    
     [lb,ub] = DifferentPopulationCalibration(lb,ub,ParameterBounds);
     lb(75:80)  = log(ParameterBounds.LowerBoundHealthy(75:80));
     ub(75:80)  = log(ParameterBounds.UpperBoundHealthy(75:80));
     
-    body_information = [1 , 0, 180, 87 ];  % female, male, height, weight
+    body_information = [0 , 1, 178, 80 ];  % female, male, height, weight
     meal_information = [3, 0, 2.6, 25.55];
     
     % fed
-    func =@(params)Silfvergren2021_costfunction(Silfvergren2021_data.value_fed_p2(1:21),Silfvergren2021_data.time_fed_p2(1:21),time,params,modelName,body_information,meal_information,2);
+    FedState = 1;
+    func =@(params)Silfvergren2021_costfunction(Silfvergren2021_data.value_fed_p2(1:21),Silfvergren2021_data.time_fed_p2(1:21),FedState,time,params,modelName,body_information,meal_information,2);
     [Silfvergren2021_ParamP2fed, minCostPS] = particleswarm(func, length(lb), lb, ub, options2);
     Silfvergren2021_ParamP2fed = exp(Silfvergren2021_ParamP2fed);
     Silfvergren2021_ParamP2fed = AssignParameter(Silfvergren2021_ParamP2fed, body_information, meal_information);
@@ -130,7 +135,8 @@ for i = 1:row
     Silfvergren2021_ParamP2fedCalibrated(i,:) = Silfvergren2021_ParamP2fed;
     
     % unfed
-    func =@(params)Silfvergren2021_costfunction(Silfvergren2021_data.Value_fasted_p2(1:46),Silfvergren2021_data.time_fastedStart_p2(1:44),time,params,modelName,body_information,meal_information,2);
+    FedState = 0;
+    func =@(params)Silfvergren2021_costfunction(Silfvergren2021_data.Value_fasted_p2(1:46),Silfvergren2021_data.time_fastedStart_p2(1:44),FedState,time,params,modelName,body_information,meal_information,2);
     [Silfvergren2021_ParamP2unfed, minCostPS] = particleswarm(func, length(lb), lb, ub, options2);
     Silfvergren2021_ParamP2unfed = exp(Silfvergren2021_ParamP2unfed);
     Silfvergren2021_ParamP2unfed = AssignParameter(Silfvergren2021_ParamP2unfed, body_information, meal_information);
@@ -146,3 +152,10 @@ save(['Silfvergren2021_ParamP2fedCalibrated' datestr(now, 'yymmdd-HHMMSS')],'Sil
 
 Silfvergren2021_ParamP2unfedCalibrated = sortrows(Silfvergren2021_ParamP2unfedCalibrated,column);
 save(['Silfvergren2021_ParamP2unfedCalibrated' datestr(now, 'yymmdd-HHMMSS')],'Silfvergren2021_ParamP2unfedCalibrated');
+
+%% Kill all paralell workers and clusters
+
+poolobj = gcp('nocreate');
+myCluster = parcluster('local');
+delete(myCluster.Jobs)
+delete(poolobj)

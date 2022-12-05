@@ -318,7 +318,7 @@ meal_all_off=gt(time,0),meal_boolean1,0,meal_boolean2,0
 
 %----------Steady State Meals----------%
 1_meal_turn_on=gt(time,SteadyStateMealStart),meal_boolean1,1
-D_SteadyState =gt(time,SteadyStateMealStart),D,SteadyStateMeal_AmountC
+D_SteadyState =gt(time,SteadyStateMealStart+1),D,SteadyStateMeal_AmountC
 1_meal_turn_off=gt(time,SteadyStateMealStart+SteadyStateMealLength),meal_boolean1,0
 
 2_meal_turn_on=gt(time,SteadyStateMealStart+130),meal_boolean1,1
