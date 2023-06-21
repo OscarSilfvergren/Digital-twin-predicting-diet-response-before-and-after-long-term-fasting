@@ -22,6 +22,6 @@ Oscar Silfvergren
 
 %--------- Update 2022-12-05 ---------%
 
-* Fixed inconsistencies and problems regarding the simulation of figure 6. Decleration of body compostions in both optimisation and plotfigure are now correct and differences in simulation outside and inide costfunction are now removed. 
+* Fixed inconsistencies regarding the simulation of figure 6. Decleration of body compostions in both optimisation and plotfigure are now correct and differences in simulation outside and inside costfunction are now removed. 
 
-* A new map is added called "New improved simulation method" is added where several implementation and parameter estimation is improved. Please see map "new improved simulation method" if you wish to implement model
+* A new folder is added called "New improved simulation method" is added where several implementation and parameter estimation is improved. Please see map "new improved simulation method" if you wish to implement model
